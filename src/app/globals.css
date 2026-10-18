@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* AdaSoft brand tokens — colors sampled from the logo. */
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy: #042554;
+  --color-navy-950: #031b3f;
+  --color-navy-800: #0a3470;
+  --color-ocean: #1562c7;
+  --color-ocean-700: #0f4fa6;
+  --color-aqua: #11d7cf;
+  --color-aqua-soft: #7dede7;
+  --color-lagoon: #08b0be;
+  --color-lagoon-ink: #067a86;
+  --color-lagoon-deep: #065f69;
+  --color-mist: #f2f7fb;
+  --color-mist-2: #e8f1f9;
+  --color-sky-soft: #e6f1fb;
+  --color-foam: #ddf1f4;
+  --color-line: #dce6f0;
+  --color-line-2: #c9d6e6;
+  --color-line-3: #9fb4cc;
+  --color-ink: #2b3a55;
+  --color-body: #3b4a63;
+  --color-muted: #56657f;
+  --color-on-dark: #a9bcd6;
+  --color-on-dark-2: #c5d3e6;
+  --color-on-dark-3: #7fa0c6;
+  --color-whatsapp: #0e7a41;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-navy-950 font-sans text-navy antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-ocean);
+    outline-offset: 2px;
+  }
+}
+
+@utility dots-light {
+  background-image: radial-gradient(rgba(4, 37, 84, 0.09) 1px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
+@utility dots-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.3px);
+  background-size: 22px 22px;
+}
+
+/* Hero map and decorative motion */
+.trace-pulse {
+  stroke-dasharray: 10 110;
+  animation: trace-pulse 3.6s linear infinite;
+}
+.trace-flow {
+  animation: trace-flow 1.4s linear infinite;
+}
+.node-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-halo 2.8s ease-out infinite;
+}
+.wave-drift {
+  animation: wave-drift 5s ease-in-out infinite alternate;
+}
+.step-run {
+  animation: step-run 5s linear infinite;
+}
+.float-y {
+  animation: float-y 4s ease-in-out infinite alternate;
+}
+
+@keyframes trace-pulse {
+  from {
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: -110;
+  }
+}
+@keyframes trace-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+@keyframes node-halo {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+@keyframes wave-drift {
+  from {
+    transform: translateX(-3px);
+  }
+  to {
+    transform: translateX(3px);
+  }
+}
+@keyframes step-run {
+  from {
+    left: -90px;
+  }
+  to {
+    left: 100%;
+  }
+}
+@keyframes float-y {
+  from {
+    transform: translateY(-4px);
+  }
+  to {
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* FAQ accordion built on <details> */
+.faq summary {
+  list-style: none;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq .faq-chev {
+  transition: transform 0.2s;
+}
+.faq[open] .faq-chev {
+  transform: rotate(180deg);
+}
