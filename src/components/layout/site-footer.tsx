@@ -4,9 +4,10 @@ import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { anchorHref, homeHref } from "@/i18n/routes";
 import { getServices } from "@/content/services";
-import { site } from "@/content/site";
+import { emailHref, phoneHref, site } from "@/content/site";
 
-const linkClass = "text-on-dark transition-colors hover:text-white";
+// Padding instead of a gap gives each link a thumb-sized row without changing the rhythm.
+const linkClass = "py-1.5 text-on-dark transition-colors hover:text-white";
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   const d = getDictionary(locale);
@@ -17,8 +18,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     { href: anchorHref(locale, "quote"), label: d.nav.quote },
   ];
 
+  // The extra bottom padding keeps the last line clear of the floating WhatsApp button.
   return (
-    <footer className="bg-navy-950 px-5 pt-18 pb-10 sm:px-8">
+    <footer className="bg-navy-950 px-5 pt-18 pb-28 sm:px-8">
       <div className="mx-auto flex max-w-[1200px] flex-col gap-12">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(3,minmax(0,1fr))]">
           <div className="flex flex-col gap-[18px]">
@@ -33,8 +35,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <p className="max-w-[320px] text-[15px] leading-relaxed text-on-dark">{d.footer.blurb}</p>
           </div>
 
-          <nav aria-label={d.footer.services} className="flex flex-col gap-3 text-[15px]">
-            <h2 className="mb-1 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.services}</h2>
+          <nav aria-label={d.footer.services} className="flex flex-col text-[15px]">
+            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.services}</h2>
             {getServices(locale).map((s) => (
               <Link key={s.id} href={s.href} className={linkClass}>
                 {s.shortTitle ?? s.title}
@@ -42,8 +44,8 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             ))}
           </nav>
 
-          <nav aria-label={d.footer.company} className="flex flex-col gap-3 text-[15px]">
-            <h2 className="mb-1 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.company}</h2>
+          <nav aria-label={d.footer.company} className="flex flex-col text-[15px]">
+            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.company}</h2>
             {company.map((l) => (
               <Link key={l.href} href={l.href} className={linkClass}>
                 {l.label}
@@ -51,11 +53,15 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             ))}
           </nav>
 
-          <div className="flex flex-col gap-3 text-[15px] text-on-dark">
-            <h2 className="mb-1 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.contact}</h2>
-            <span>{site.contact.phoneDisplay}</span>
-            <span>{site.contact.email}</span>
-            <span>{site.contact.address[locale]}</span>
+          <div className="flex flex-col text-[15px] text-on-dark">
+            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.contact}</h2>
+            <a href={phoneHref} className={linkClass}>
+              {site.contact.phoneDisplay}
+            </a>
+            <a href={emailHref} className={linkClass}>
+              {site.contact.email}
+            </a>
+            <span className="py-1.5">{site.contact.address[locale]}</span>
           </div>
         </div>
 

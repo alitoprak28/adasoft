@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { anchorHref } from "@/i18n/routes";
 import { whatsappHref } from "@/content/site";
+import { cn } from "@/lib/cn";
 
 type Crumb = { href?: string; label: string };
 
@@ -28,14 +29,14 @@ export function PageHero({ locale, crumbs, pill, title, lead, ctaLabel, trust, v
         <nav aria-label={d.common.breadcrumb} className="text-sm font-semibold text-muted">
           <ol className="flex flex-wrap items-center gap-2">
             {crumbs.map((c, i) => (
-              <li key={c.label} className="flex items-center gap-2">
+              <li key={c.label} className={cn("flex items-center gap-2", !c.href && "max-sm:hidden")}>
                 {i > 0 && (
                   <span aria-hidden="true" className="text-line-3">
                     /
                   </span>
                 )}
                 {c.href ? (
-                  <Link href={c.href} className="text-body hover:text-ocean">
+                  <Link href={c.href} className="-my-3 inline-flex min-h-11 items-center text-body hover:text-ocean">
                     {c.label}
                   </Link>
                 ) : (

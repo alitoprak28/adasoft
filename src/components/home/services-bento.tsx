@@ -65,7 +65,7 @@ function FeaturedCard({ service, details, badge }: { service: Service; details: 
       <span className="relative z-10 mt-auto">
         <Details label={details} light />
       </span>
-      <svg viewBox="0 0 200 120" aria-hidden="true" className="pointer-events-none absolute -right-2.5 -bottom-1.5 w-60 opacity-35">
+      <svg viewBox="0 0 200 120" aria-hidden="true" className="pointer-events-none absolute -right-2.5 -bottom-1.5 w-40 opacity-35 sm:w-60">
         <g fill="none" stroke="#11D7CF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M20 110V70L45 45H120" />
           <path d="M60 110V85L80 65H160L180 45" />

@@ -13,7 +13,7 @@ export function WhatsAppFab({ locale }: { locale: Locale }) {
       href={href}
       aria-label={d.whatsapp}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className="fixed right-4 bottom-4 z-50 inline-flex min-h-[54px] items-center gap-2.5 rounded-full bg-whatsapp px-4 text-[15.5px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(4,37,84,0.55)] transition-transform hover:-translate-y-px sm:right-6 sm:bottom-6 sm:px-5"
+      className="fixed right-4 bottom-4 z-50 inline-flex min-h-[54px] items-center gap-2.5 rounded-full bg-whatsapp px-4 text-[15.5px] font-bold text-white shadow-[0_14px_30px_-12px_rgba(4,37,84,0.55)] transition-transform hover:-translate-y-px sm:right-6 sm:bottom-6 sm:px-5 [body:has(#mobil-menu)_&]:hidden"
     >
       <Icon name="whatsapp" size={22} strokeWidth={2.1} />
       <span className="hidden sm:inline">WhatsApp</span>

@@ -31,16 +31,16 @@ export function About({ locale }: { locale: Locale }) {
             ))}
           </ul>
         </div>
-        <ul className="grid gap-5 sm:grid-cols-2">
+        <ul className="grid grid-cols-2 gap-3 sm:gap-5">
           {founders.map((f, i) => (
-            <li key={i} className="flex flex-col gap-4 rounded-[20px] border border-line bg-white p-[18px] pb-6">
+            <li key={i} className="flex flex-col gap-3 rounded-[20px] border border-line bg-white p-3 pb-4 sm:gap-4 sm:p-[18px] sm:pb-6">
               <div className="flex aspect-square flex-col items-center justify-center gap-2.5 rounded-[14px] bg-mist-2 text-[#7c93b0]">
-                <Icon name="user" size={56} strokeWidth={1.4} />
+                <Icon name="user" size={44} strokeWidth={1.4} className="sm:size-14" />
                 <span className="text-sm font-semibold text-muted">{d.common.photo}</span>
               </div>
-              <div className="flex flex-col gap-1 px-1.5">
-                <h3 className="text-[19px] font-bold text-navy">{f.name}</h3>
-                <p className="text-[14.5px] text-muted">{f.role}</p>
+              <div className="flex flex-col gap-1 px-1 sm:px-1.5">
+                <h3 className="text-base font-bold text-navy sm:text-[19px]">{f.name}</h3>
+                <p className="text-[13px] leading-snug text-muted sm:text-[14.5px]">{f.role}</p>
               </div>
             </li>
           ))}

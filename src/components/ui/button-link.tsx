@@ -22,8 +22,8 @@ type Props = {
 
 export function ButtonLink({ href, children, variant = "primary", size = "lg", icon, trailingArrow, className }: Props) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2.5 rounded-[14px] font-bold transition-[background-color,border-color,transform] duration-150 hover:-translate-y-px",
-    size === "lg" ? "min-h-[54px] px-6 text-[16.5px]" : "min-h-12 rounded-xl px-5 text-base",
+    "inline-flex items-center justify-center gap-2.5 rounded-[14px] text-center font-bold transition-[background-color,border-color,transform] duration-150 hover:-translate-y-px",
+    size === "lg" ? "min-h-[54px] px-5 text-base sm:px-6 sm:text-[16.5px]" : "min-h-12 rounded-xl px-5 text-base",
     variants[variant],
     className,
   );

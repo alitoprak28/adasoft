@@ -5,7 +5,10 @@ import { Container } from "@/components/ui/layout";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { anchorHref, anchorId } from "@/i18n/routes";
-import { site, whatsappHref } from "@/content/site";
+import { emailHref, phoneHref, site, whatsappHref } from "@/content/site";
+
+// Padding widens the tap area; the negative margin keeps the list spacing unchanged.
+const contactLink = "-my-1.5 flex items-center gap-2.5 py-1.5 transition-colors hover:text-white";
 
 type Props = {
   locale: Locale;
@@ -39,13 +42,17 @@ export function CtaBand({ locale, title, text, showContacts = true }: Props) {
         </div>
         {showContacts && (
           <ul className="mt-3 flex flex-wrap gap-x-8 gap-y-3 text-[15.5px] text-on-dark-2">
-            <li className="flex items-center gap-2.5">
-              <Icon name="phone" size={18} strokeWidth={2} className="text-aqua" />
-              {site.contact.phoneDisplay}
+            <li>
+              <a href={phoneHref} className={contactLink}>
+                <Icon name="phone" size={18} strokeWidth={2} className="text-aqua" />
+                {site.contact.phoneDisplay}
+              </a>
             </li>
-            <li className="flex items-center gap-2.5">
-              <Icon name="mail" size={18} strokeWidth={2} className="text-aqua" />
-              {site.contact.email}
+            <li>
+              <a href={emailHref} className={contactLink}>
+                <Icon name="mail" size={18} strokeWidth={2} className="text-aqua" />
+                {site.contact.email}
+              </a>
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="pin" size={18} strokeWidth={2} className="text-aqua" />

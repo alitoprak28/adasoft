@@ -28,6 +28,10 @@ export function whatsappHref(fallback: string, message?: string) {
   return `https://wa.me/${number}${text}`;
 }
 
+/** Phone and e-mail links built from the displayed values, so each is filled in once. */
+export const phoneHref = `tel:${site.contact.phoneDisplay.replace(/[^+\d]/g, "")}`;
+export const emailHref = `mailto:${site.contact.email}`;
+
 export type Project = { tag: string; title: string; summary: string };
 type Step = { title: string; text: string };
 

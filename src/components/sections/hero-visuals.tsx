@@ -98,15 +98,17 @@ export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
             <path d="M0 150Q50 135 100 150T200 150T300 150T400 150V210H0Z" fill="#1562C7" />
             <path d="M0 172Q50 160 100 172T200 172T300 172T400 172V210H0Z" fill="#0FA1D3" />
           </svg>
-          <div className="absolute top-5 left-[22px] flex flex-col gap-1">
-            <span className="text-xl font-extrabold text-white">{t.hotel}</span>
-            <span className="text-[13px] font-semibold text-on-dark">{t.place}</span>
-          </div>
-          <div className="absolute top-[18px] right-[18px] flex gap-1 rounded-[10px] bg-white/12 p-[3px] text-xs font-bold text-[#dce6f2]">
-            <span className="rounded-[7px] bg-white px-2 py-1 font-extrabold text-navy">TR</span>
-            <span className="px-2 py-1">EN</span>
-            <span className="px-2 py-1">DE</span>
-            <span className="px-2 py-1">RU</span>
+          <div className="absolute inset-x-[18px] top-[18px] flex flex-wrap items-start justify-between gap-x-3 gap-y-2.5">
+            <div className="flex min-w-0 flex-col gap-1 pt-0.5 pl-1">
+              <span className="text-xl font-extrabold text-white">{t.hotel}</span>
+              <span className="text-[13px] font-semibold text-on-dark">{t.place}</span>
+            </div>
+            <div className="flex shrink-0 gap-1 rounded-[10px] bg-white/12 p-[3px] text-xs font-bold text-[#dce6f2]">
+              <span className="rounded-[7px] bg-white px-2 py-1 font-extrabold text-navy">TR</span>
+              <span className="px-2 py-1">EN</span>
+              <span className="px-2 py-1">DE</span>
+              <span className="px-2 py-1">RU</span>
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-4 p-6">
@@ -157,7 +159,7 @@ export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
 /** Generic visual for pages without a bespoke illustration: a large icon tile on a circuit backdrop. */
 export function IconTileVisual({ icon, label }: { icon: IconName; label: string }) {
   return (
-    <div aria-hidden="true" className="relative flex min-h-[360px] items-center justify-center py-6">
+    <div aria-hidden="true" className="relative hidden min-h-[360px] items-center justify-center py-6 lg:flex">
       <CircuitBackdrop />
       <div className="relative flex flex-col items-center gap-5 rounded-[32px] border border-line bg-white px-14 py-12 shadow-[0_40px_80px_-40px_rgba(4,37,84,0.55)]">
         <span className="flex size-28 items-center justify-center rounded-[28px] bg-navy text-aqua">

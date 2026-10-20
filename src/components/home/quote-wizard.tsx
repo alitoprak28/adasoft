@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useRef, useState, type FormEvent, type ReactNode, type Ref } from "react";
 import { Icon } from "@/components/ui/icon";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { cn } from "@/lib/cn";
@@ -18,23 +18,40 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
   const [step, setStep] = useState(1);
   const [types, setTypes] = useState<number[]>([0]);
   const [timing, setTiming] = useState(1);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const stepChanged = useRef(false);
+
+  // On a phone the next step can open above the screen (the cards shrink). Bring the card back into
+  // view and move focus to the new question so screen readers announce it.
+  useEffect(() => {
+    if (!stepChanged.current) return;
+    stepChanged.current = false;
+    headingRef.current?.focus({ preventScroll: true });
+    if (cardRef.current && cardRef.current.getBoundingClientRect().top < 0) cardRef.current.scrollIntoView({ block: "start" });
+  }, [step]);
+
+  const goTo = (next: number) => {
+    stepChanged.current = true;
+    setStep(next);
+  };
 
   const toggleType = (i: number) => setTypes((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]));
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // TODO: send the request (e.g. a server action that emails it via Resend) once the inbox is decided.
-    setStep(4);
+    goTo(4);
   };
 
   const restart = () => {
-    setStep(1);
+    goTo(1);
     setTypes([0]);
     setTiming(1);
   };
 
   return (
-    <div className="flex flex-col gap-7 rounded-3xl border border-line bg-white p-6 shadow-[0_28px_56px_-36px_rgba(4,37,84,0.4)] sm:p-9">
+    <div ref={cardRef} className="flex scroll-mt-4 flex-col gap-7 rounded-3xl border border-line bg-white p-6 shadow-[0_28px_56px_-36px_rgba(4,37,84,0.4)] sm:p-9">
       {step < 4 && (
         <div className="flex flex-col gap-2.5">
           <div className="flex justify-between gap-3 text-sm font-bold text-muted">
@@ -56,7 +73,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
 
       {step === 1 && (
         <div className="flex flex-col gap-[22px]">
-          <StepTitle title={t.q1} sub={t.q1Sub} />
+          <StepTitle ref={headingRef} title={t.q1} sub={t.q1Sub} />
           <div role="group" aria-label={t.typesLabel} className="flex flex-wrap gap-2.5">
             {t.types.map((label, i) => {
               const on = types.includes(i);
@@ -78,7 +95,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
             })}
           </div>
           <div className="flex justify-end">
-            <button type="button" className={primaryBtn} disabled={types.length === 0} onClick={() => setStep(2)}>
+            <button type="button" className={primaryBtn} disabled={types.length === 0} onClick={() => goTo(2)}>
               {t.next}
               <Icon name="arrowRight" size={18} strokeWidth={2.2} />
             </button>
@@ -88,7 +105,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
 
       {step === 2 && (
         <div className="flex flex-col gap-[22px]">
-          <StepTitle title={t.q2} sub={t.q2Sub} />
+          <StepTitle ref={headingRef} title={t.q2} sub={t.q2Sub} />
           <div role="radiogroup" aria-label={t.timingLabel} className="flex flex-col gap-2.5">
             {t.timings.map((o, i) => {
               const on = timing === i;
@@ -116,10 +133,10 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
             })}
           </div>
           <div className="flex items-center justify-between gap-3">
-            <button type="button" className={backBtn} onClick={() => setStep(1)}>
+            <button type="button" className={backBtn} onClick={() => goTo(1)}>
               {t.back}
             </button>
-            <button type="button" className={primaryBtn} onClick={() => setStep(3)}>
+            <button type="button" className={primaryBtn} onClick={() => goTo(3)}>
               {t.next}
               <Icon name="arrowRight" size={18} strokeWidth={2.2} />
             </button>
@@ -129,7 +146,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
 
       {step === 3 && (
         <form className="flex flex-col gap-[22px]" onSubmit={submit}>
-          <StepTitle title={t.q3} sub={t.q3Sub} />
+          <StepTitle ref={headingRef} title={t.q3} sub={t.q3Sub} />
           <div className="flex flex-col gap-4">
             <Field label={t.name}>
               <input className={inputClass} name="name" autoComplete="name" placeholder={t.namePlaceholder} required />
@@ -144,7 +161,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
             <input type="hidden" name="timing" value={t.timings[timing].label} />
           </div>
           <div className="flex items-center justify-between gap-3">
-            <button type="button" className={backBtn} onClick={() => setStep(2)}>
+            <button type="button" className={backBtn} onClick={() => goTo(2)}>
               {t.back}
             </button>
             <button type="submit" className={primaryBtn}>
@@ -159,7 +176,9 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
           <span className="flex size-16 items-center justify-center rounded-full bg-[#ddf5ea] text-whatsapp">
             <Icon name="check" size={30} strokeWidth={2.6} />
           </span>
-          <h3 className="text-[26px] font-bold tracking-[-0.02em] text-navy">{t.thanks}</h3>
+          <h3 ref={headingRef} tabIndex={-1} className="text-[26px] font-bold tracking-[-0.02em] text-navy outline-none">
+            {t.thanks}
+          </h3>
           <p className="text-base leading-relaxed text-muted">{t.thanksText}</p>
           <button
             type="button"
@@ -174,10 +193,12 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
   );
 }
 
-function StepTitle({ title, sub }: { title: string; sub: string }) {
+function StepTitle({ ref, title, sub }: { ref: Ref<HTMLHeadingElement>; title: string; sub: string }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <h3 className="text-2xl font-bold tracking-[-0.02em] text-navy">{title}</h3>
+      <h3 ref={ref} tabIndex={-1} className="text-2xl font-bold tracking-[-0.02em] text-navy outline-none">
+        {title}
+      </h3>
       <p className="text-[15px] text-muted">{sub}</p>
     </div>
   );

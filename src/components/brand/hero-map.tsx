@@ -68,7 +68,7 @@ export function HeroMap({ locale, label, className }: { locale: Locale; label: s
           key={c.name.tr}
           aria-hidden="true"
           className={cn(
-            "absolute rounded-md bg-navy px-[7px] py-[3px] text-[11px] font-bold whitespace-nowrap text-white shadow-[0_8px_18px_-10px_rgba(4,37,84,0.6)] sm:rounded-lg sm:px-2.5 sm:py-[5px] sm:text-[13px]",
+            "absolute rounded-md bg-navy px-[7px] py-[3px] text-xs font-bold whitespace-nowrap text-white shadow-[0_8px_18px_-10px_rgba(4,37,84,0.6)] sm:rounded-lg sm:px-2.5 sm:py-[5px] sm:text-[13px]",
             labelOffset[c.label],
           )}
           style={{ left: `${((c.x - vx) / vw) * 100}%`, top: `${((c.y - vy) / vh) * 100}%` }}
