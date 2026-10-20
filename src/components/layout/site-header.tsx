@@ -1,22 +1,29 @@
 import { HeaderNav, type NavGroup, type NavSector } from "./header-nav";
-import { serviceGroups, servicesInGroup } from "@/content/services";
-import { sectors } from "@/content/sectors";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { anchorHref, homeHref } from "@/i18n/routes";
+import { getServiceGroups, servicesInGroup } from "@/content/services";
+import { getSectors } from "@/content/sectors";
 
-export function SiteHeader() {
-  const groups: NavGroup[] = serviceGroups.map((g) => ({
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).nav;
+  const groups: NavGroup[] = getServiceGroups(locale).map((g) => ({
     title: g.title,
     // Featured services sit last in their column, as in the design.
-    items: servicesInGroup(g.id)
-      .toSorted((a, b) => Number(!!a.featured) - Number(!!b.featured))
-      .map((s) => ({
-        href: `/hizmetler/${s.slug}`,
-        title: s.shortTitle ?? s.title,
-        line: s.menuLine,
-        icon: s.icon,
-        featured: !!s.featured,
-      })),
+    items: servicesInGroup(locale, g.id)
+      .toSorted((a, b) => Number(a.featured) - Number(b.featured))
+      .map((s) => ({ href: s.href, title: s.shortTitle ?? s.title, line: s.menuLine, icon: s.icon, featured: s.featured })),
   }));
-  const sectorLinks: NavSector[] = sectors.map((s) => ({ href: `/sektorler/${s.slug}`, title: s.title, line: s.menuLine }));
+  const sectors: NavSector[] = getSectors(locale).map((s) => ({ href: s.href, title: s.title, line: s.menuLine }));
 
-  return <HeaderNav groups={groups} sectors={sectorLinks} />;
+  return (
+    <HeaderNav
+      locale={locale}
+      t={t}
+      homeHref={homeHref(locale)}
+      links={{ projects: anchorHref(locale, "projects"), about: anchorHref(locale, "about"), quote: anchorHref(locale, "quote") }}
+      groups={groups}
+      sectors={sectors}
+    />
+  );
 }

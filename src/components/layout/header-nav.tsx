@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { Icon, type IconName } from "@/components/ui/icon";
+import type { Locale } from "@/i18n/config";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { cn } from "@/lib/cn";
+import { LanguageSwitch } from "./language-switch";
 
 export type NavItem = { href: string; title: string; line: string; icon: IconName; featured: boolean };
 export type NavGroup = { title: string; items: NavItem[] };
@@ -14,7 +17,16 @@ type Panel = "svc" | "sec" | null;
 
 const navLink = "inline-flex min-h-11 items-center rounded-[10px] px-3.5 text-[15.5px] font-semibold text-ink transition-colors hover:text-ocean";
 
-export function HeaderNav({ groups, sectors }: { groups: NavGroup[]; sectors: NavSector[] }) {
+type Props = {
+  locale: Locale;
+  t: Dictionary["nav"];
+  homeHref: string;
+  links: { projects: string; about: string; quote: string };
+  groups: NavGroup[];
+  sectors: NavSector[];
+};
+
+export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props) {
   const [panel, setPanel] = useState<Panel>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const rootRef = useRef<HTMLElement>(null);
@@ -50,32 +62,33 @@ export function HeaderNav({ groups, sectors }: { groups: NavGroup[]; sectors: Na
   return (
     <header ref={rootRef} className="dots-light relative z-40 border-b border-navy/8 bg-mist">
       <div className="mx-auto flex max-w-[1264px] items-center justify-between gap-6 px-5 py-3.5 sm:px-8 sm:py-[18px]">
-        <Link href="/" aria-label="AdaSoft ana sayfa" onClick={closeAll}>
+        <Link href={homeHref} aria-label={t.homeLabel} onClick={closeAll}>
           <Logo />
         </Link>
 
-        <nav aria-label="Ana menü" className="hidden items-center gap-1.5 lg:flex">
-          <PanelButton label="Hizmetler" open={panel === "svc"} onClick={() => toggle("svc")} />
-          <PanelButton label="Sektörler" open={panel === "sec"} onClick={() => toggle("sec")} />
-          <Link href="/#projeler" className={navLink} onClick={closeAll}>
-            Projeler
+        <nav aria-label={t.mainMenu} className="hidden items-center gap-1.5 lg:flex">
+          <PanelButton label={t.services} open={panel === "svc"} onClick={() => toggle("svc")} />
+          <PanelButton label={t.sectors} open={panel === "sec"} onClick={() => toggle("sec")} />
+          <Link href={links.projects} className={navLink} onClick={closeAll}>
+            {t.projects}
           </Link>
-          <Link href="/#hakkimizda" className={navLink} onClick={closeAll}>
-            Hakkımızda
+          <Link href={links.about} className={navLink} onClick={closeAll}>
+            {t.about}
           </Link>
         </nav>
 
         <div className="flex items-center gap-3">
+          <LanguageSwitch locale={locale} label={t.language} className="hidden sm:flex" />
           <Link
-            href="/#teklif"
+            href={links.quote}
             onClick={closeAll}
             className="hidden min-h-11 items-center rounded-xl bg-ocean px-5 text-[15px] font-bold text-white transition-colors hover:bg-ocean-700 sm:inline-flex"
           >
-            Teklif Al
+            {t.quote}
           </Link>
           <button
             type="button"
-            aria-label={mobileOpen ? "Menüyü kapat" : "Menüyü aç"}
+            aria-label={mobileOpen ? t.closeMenu : t.openMenu}
             aria-expanded={mobileOpen}
             aria-controls="mobil-menu"
             onClick={() => {
@@ -111,15 +124,15 @@ export function HeaderNav({ groups, sectors }: { groups: NavGroup[]; sectors: Na
               ))}
             </div>
             <div className="flex flex-col gap-3.5 rounded-2xl bg-navy p-6 text-white">
-              <p className="text-xs font-extrabold tracking-[0.12em] text-aqua uppercase">Listede yok mu?</p>
-              <p className="text-[19px] leading-snug font-bold">Aradığınız yazılımı anlatın, birlikte yapalım.</p>
-              <p className="text-sm leading-relaxed text-on-dark">Her proje ücretsiz bir keşif görüşmesiyle başlar.</p>
+              <p className="text-xs font-extrabold tracking-[0.12em] text-aqua uppercase">{t.notListedEyebrow}</p>
+              <p className="text-[19px] leading-snug font-bold">{t.notListedTitle}</p>
+              <p className="text-sm leading-relaxed text-on-dark">{t.notListedText}</p>
               <Link
-                href="/#teklif"
+                href={links.quote}
                 onClick={closeAll}
                 className="mt-auto inline-flex min-h-11 items-center gap-2 self-start rounded-xl bg-aqua px-[18px] text-[15px] font-extrabold text-navy transition-colors hover:bg-aqua-soft"
               >
-                Teklif Al
+                {t.quote}
                 <Icon name="arrowRight" size={16} strokeWidth={2.4} />
               </Link>
             </div>
@@ -145,10 +158,10 @@ export function HeaderNav({ groups, sectors }: { groups: NavGroup[]; sectors: Na
       {mobileOpen && (
         <nav
           id="mobil-menu"
-          aria-label="Mobil menü"
+          aria-label={t.mobileMenu}
           className="mx-5 mb-4 flex flex-col rounded-2xl border border-line bg-white p-2 text-[17px] font-semibold text-navy shadow-[0_18px_36px_-24px_rgba(4,37,84,0.45)] sm:mx-8 lg:hidden"
         >
-          <MobileGroup title="Hizmetler">
+          <MobileGroup title={t.services}>
             {groups.flatMap((g) => g.items).map((item) => (
               <Link key={item.href} href={item.href} onClick={closeAll} className="flex min-h-11 items-center gap-3 rounded-lg px-3.5 text-[15.5px] hover:bg-mist">
                 <Icon name={item.icon} size={18} className="text-ocean" />
@@ -156,22 +169,25 @@ export function HeaderNav({ groups, sectors }: { groups: NavGroup[]; sectors: Na
               </Link>
             ))}
           </MobileGroup>
-          <MobileGroup title="Sektörler">
+          <MobileGroup title={t.sectors}>
             {sectors.map((s) => (
               <Link key={s.href} href={s.href} onClick={closeAll} className="flex min-h-11 items-center rounded-lg px-3.5 text-[15.5px] hover:bg-mist">
                 {s.title}
               </Link>
             ))}
           </MobileGroup>
-          <Link href="/#projeler" onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 hover:bg-mist">
-            Projeler
+          <Link href={links.projects} onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 hover:bg-mist">
+            {t.projects}
           </Link>
-          <Link href="/#hakkimizda" onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 hover:bg-mist">
-            Hakkımızda
+          <Link href={links.about} onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 hover:bg-mist">
+            {t.about}
           </Link>
-          <Link href="/#teklif" onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 font-extrabold text-ocean hover:bg-mist">
-            Teklif Al
+          <Link href={links.quote} onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 font-extrabold text-ocean hover:bg-mist">
+            {t.quote}
           </Link>
+          <div className="mt-1.5 border-t border-[#e3ecf5] px-3.5 pt-3 pb-1.5">
+            <LanguageSwitch locale={locale} label={t.language} className="inline-flex" />
+          </div>
         </nav>
       )}
     </header>

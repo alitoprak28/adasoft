@@ -8,11 +8,11 @@ export const WAVE_PATH =
 
 // Real city positions (lat/lon projected into the same space). `label` places the name chip.
 export const CITIES = [
-  { name: "Lefkoşa", x: 131, y: 75.3, hub: true, label: "below" },
-  { name: "Girne", x: 124.6, y: 56.5, label: "left" },
-  { name: "Güzelyurt", x: 91.4, y: 73.6, label: "left" },
-  { name: "Gazimağusa", x: 187.9, y: 82.8, label: "right" },
-  { name: "İskele", x: 182.8, y: 62.8, label: "right" },
+  { name: { tr: "Lefkoşa", en: "Nicosia" }, x: 131, y: 75.3, hub: true, label: "below" },
+  { name: { tr: "Girne", en: "Kyrenia" }, x: 124.6, y: 56.5, label: "left" },
+  { name: { tr: "Güzelyurt", en: "Güzelyurt" }, x: 91.4, y: 73.6, label: "left" },
+  { name: { tr: "Gazimağusa", en: "Famagusta" }, x: 187.9, y: 82.8, label: "right" },
+  { name: { tr: "İskele", en: "İskele" }, x: 182.8, y: 62.8, label: "right" },
 ] as const;
 
 // Circuit traces between the cities (orthogonal runs with 45° turns).

@@ -2,24 +2,22 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { Container, Section } from "@/components/ui/layout";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { sectors } from "@/content/sectors";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { anchorId } from "@/i18n/routes";
+import { getSectors } from "@/content/sectors";
 
-export function SectorsGrid() {
+export function SectorsGrid({ locale }: { locale: Locale }) {
+  const t = getDictionary(locale).sectorsSection;
   return (
-    <Section id="sektorler" tone="navy" aria-labelledby="sektorler-title">
+    <Section id={anchorId(locale, "sectors")} tone="navy" aria-labelledby="sektorler-title">
       <Container className="flex flex-col gap-14">
-        <SectionHeading
-          id="sektorler-title"
-          dark
-          eyebrow="Kime yapıyoruz"
-          title="KKTC'nin sektörlerini yakından tanıyoruz"
-          intro="Her sektörün kendi ihtiyacı var. Sektörünüzü seçin, sizin için neler yapabileceğimizi görün."
-        />
+        <SectionHeading id="sektorler-title" dark eyebrow={t.eyebrow} title={t.title} intro={t.intro} />
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sectors.map((s) => (
-            <li key={s.slug}>
+          {getSectors(locale).map((s) => (
+            <li key={s.id}>
               <Link
-                href={`/sektorler/${s.slug}`}
+                href={s.href}
                 className="group flex h-full flex-col gap-3.5 rounded-[18px] border border-white/12 bg-white/4 p-[26px] text-white transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-aqua/55 hover:bg-white/8"
               >
                 <span className="flex items-center justify-between">

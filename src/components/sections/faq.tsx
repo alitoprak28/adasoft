@@ -2,13 +2,18 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import { Container, Section } from "@/components/ui/layout";
 import { Eyebrow, SectionTitle } from "@/components/ui/section-heading";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { anchorHref } from "@/i18n/routes";
 import type { Faq } from "@/content/services";
 import { whatsappHref } from "@/content/site";
 
-export function FaqSection({ title, items }: { title: string; items: Faq[] }) {
+export function FaqSection({ locale, title, items }: { locale: Locale; title: string; items: Faq[] }) {
+  const d = getDictionary(locale);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
+    inLanguage: locale,
     mainEntity: items.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
   };
   return (
@@ -16,14 +21,14 @@ export function FaqSection({ title, items }: { title: string; items: Faq[] }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Container className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
         <div className="flex flex-col gap-4">
-          <Eyebrow>Sık sorulan sorular</Eyebrow>
+          <Eyebrow>{d.faq.eyebrow}</Eyebrow>
           <SectionTitle id="sss-title">{title}</SectionTitle>
           <p className="text-[17px] leading-relaxed text-muted">
-            Sorunuz burada yok mu?{" "}
-            <Link href={whatsappHref()} className="font-bold text-ocean hover:text-ocean-700">
-              WhatsApp&apos;tan yazın
+            {d.faq.notHere}{" "}
+            <Link href={whatsappHref(anchorHref(locale, "contact"))} className="font-bold text-ocean hover:text-ocean-700">
+              {d.common.whatsapp}
             </Link>
-            , hemen yanıtlayalım.
+            {d.faq.reply}
           </p>
         </div>
         <div className="flex flex-col gap-3">

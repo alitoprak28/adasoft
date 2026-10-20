@@ -18,11 +18,11 @@ function StepNumber({ n, last }: { n: number; last: boolean }) {
 }
 
 /** Horizontal timeline on wide screens, vertical list on phones. */
-export function ProcessSteps({ steps, title, id = "surec" }: { steps: Step[]; title: string; id?: string }) {
+export function ProcessSteps({ steps, eyebrow, title, id }: { steps: Step[]; eyebrow: string; title: string; id: string }) {
   return (
     <Section id={id} tone="mist" aria-labelledby={`${id}-title`}>
       <Container className="flex flex-col gap-14 sm:gap-16">
-        <SectionHeading id={`${id}-title`} eyebrow="Nasıl çalışıyoruz" title={title} layout="center" />
+        <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} layout="center" />
         <div className="relative">
           <div aria-hidden="true" className="absolute top-[27px] right-[10%] left-[10%] hidden h-0.5 overflow-hidden bg-[#c5d8ec] lg:block">
             <div className="step-run absolute top-0 left-0 h-0.5 w-[90px] bg-aqua" />

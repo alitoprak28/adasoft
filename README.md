@@ -1,6 +1,6 @@
 # AdaSoft web sitesi
 
-AdaSoft'un kurumsal sitesi. Next.js 16 (App Router), TypeScript ve Tailwind CSS 4 ile yazıldı. Tüm sayfalar derleme sırasında statik olarak üretilir.
+AdaSoft'un kurumsal sitesi. Next.js 16 (App Router), TypeScript ve Tailwind CSS 4 ile yazıldı. Site Türkçe ve İngilizcedir; tüm sayfalar derleme sırasında iki dilde statik olarak üretilir.
 
 ## Çalıştırma
 
@@ -15,16 +15,34 @@ npm run lint
 
 | Yol | İçerik |
 | --- | --- |
+| `src/i18n/config.ts` | Diller (`tr`, `en`) ve varsayılan dil |
+| `src/i18n/routes.ts` | İki dilin URL yapısı: hizmet ve sektör slug'ları, ana sayfa bölüm çapaları, dil değiştirirken aynı sayfanın karşılığı |
+| `src/i18n/dictionaries.ts` | Menü, butonlar, form ve bölüm başlıkları gibi arayüz metinleri (TR + EN) |
 | `src/content/site.ts` | Şirket bilgileri, iletişim, süreç adımları, kurucular, örnek projeler |
-| `src/content/services.ts` | 9 hizmet ve 3 hizmet grubu. Her hizmet `/hizmetler/<slug>` sayfasını üretir |
-| `src/content/sectors.ts` | 9 sektör. Her sektör `/sektorler/<slug>` sayfasını üretir |
+| `src/content/services.ts` | 9 hizmet ve 3 hizmet grubu, her biri TR + EN metinle. Her hizmet `/hizmetler/<slug>` ve `/en/services/<slug>` sayfalarını üretir |
+| `src/content/sectors.ts` | 9 sektör, her biri TR + EN metinle. Her sektör `/sektorler/<slug>` ve `/en/industries/<slug>` sayfalarını üretir |
+| `src/app/(tr)`, `src/app/(en)` | İki dilin rotaları. Her grubun kendi `<html lang>` kök layout'u var |
+| `src/views` | Rotaların ortak sayfa gövdeleri ve metadata'sı (iki dil aynı bileşeni kullanır) |
 | `src/components/home` | Ana sayfa bölümleri (hero, hizmetler, sektörler, teklif sihirbazı, hakkımızda) |
 | `src/components/sections` | Sayfalar arası ortak bölümler (sayfa başlığı, SSS, süreç, CTA, proje kartları) |
-| `src/components/layout` | Üst menü (açılır menüler dahil), footer, WhatsApp butonu |
+| `src/components/layout` | Üst menü (açılır menüler dahil), TR/EN dil düğmesi, footer, WhatsApp butonu |
 | `src/components/brand` | Logo, Kıbrıs haritası (Natural Earth kıyı verisi) |
 | `src/app/globals.css` | Marka renkleri (`@theme`), animasyonlar |
 
-Yeni bir hizmet ya da sektör eklemek için ilgili içerik dosyasına bir kayıt eklemek yeterli; sayfa, menü, footer ve site haritası otomatik güncellenir.
+Yeni bir hizmet ya da sektör eklemek için `src/i18n/routes.ts` içine iki dilde slug'ını, ilgili içerik dosyasına da TR + EN metnini eklemek yeterli; sayfalar, menü, footer ve site haritası otomatik güncellenir. Bir dilde slug ya da zorunlu bir metin alanı eksikse TypeScript hata verir.
+
+## Diller
+
+| Sayfa | Türkçe | İngilizce |
+| --- | --- | --- |
+| Ana sayfa | `/` | `/en` |
+| Hizmet | `/hizmetler/mobil-uygulama` | `/en/services/mobile-apps` |
+| Sektör | `/sektorler/turizm-otel` | `/en/industries/tourism-hotels` |
+
+- Türkçe varsayılan dildir ve ön eksizdir. İngilizce `/en` altındadır.
+- Üst menüdeki TR/EN düğmesi aynı sayfanın diğer dildeki karşılığına gider. İki dil ayrı kök layout kullandığı için geçişte sayfa yeniden yüklenir.
+- Her sayfa `hreflang` alternatiflerini (`tr`, `en`, `x-default`) ve kendi dilindeki canonical adresini bildirir; site haritası da her sayfanın iki dildeki adresini içerir.
+- Eşleşmeyen adresler `src/app/global-not-found.tsx` içindeki iki dilli 404 sayfasını gösterir.
 
 ## Yayından önce doldurulacaklar
 
@@ -38,6 +56,6 @@ Köşeli parantez içindeki her metin (`[...]`) bir yer tutucudur:
 ## Henüz yapılmayanlar
 
 - Teklif formu gönderimi: form şu an sadece teşekkür ekranı gösteriyor (`src/components/home/quote-wizard.tsx` içindeki TODO).
-- İngilizce sürüm: içerik dosyaları dile göre ayrılabilecek şekilde tutuluyor; `next-intl` ile `/en` eklenecek.
+- İngilizce metinlerin anadili İngilizce olan biri tarafından gözden geçirilmesi.
 - Gizlilik, çerez ve KVKK sayfaları.
 - Diğer hizmet ve sektör sayfaları için Mobil Uygulamalar ve Turizm ve Otel'deki kadar ayrıntılı içerik (SSS, süreç, örnekler).

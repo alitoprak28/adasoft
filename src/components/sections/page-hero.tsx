@@ -1,11 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ButtonLink, CheckList } from "@/components/ui/button-link";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { anchorHref } from "@/i18n/routes";
 import { whatsappHref } from "@/content/site";
 
 type Crumb = { href?: string; label: string };
 
 type Props = {
+  locale: Locale;
   crumbs: Crumb[];
   pill: string;
   title: string;
@@ -16,15 +20,20 @@ type Props = {
 };
 
 /** Top band for service and sector pages: breadcrumb, title, actions and a visual on the right. */
-export function PageHero({ crumbs, pill, title, lead, ctaLabel, trust, visual }: Props) {
+export function PageHero({ locale, crumbs, pill, title, lead, ctaLabel, trust, visual }: Props) {
+  const d = getDictionary(locale);
   return (
     <section aria-labelledby="page-title" className="dots-light bg-mist px-5 pt-8 pb-16 sm:px-8 sm:pt-10 sm:pb-24">
       <div className="mx-auto flex max-w-[1200px] flex-col gap-10">
-        <nav aria-label="Konum" className="text-sm font-semibold text-muted">
+        <nav aria-label={d.common.breadcrumb} className="text-sm font-semibold text-muted">
           <ol className="flex flex-wrap items-center gap-2">
             {crumbs.map((c, i) => (
               <li key={c.label} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden="true" className="text-line-3">/</span>}
+                {i > 0 && (
+                  <span aria-hidden="true" className="text-line-3">
+                    /
+                  </span>
+                )}
                 {c.href ? (
                   <Link href={c.href} className="text-body hover:text-ocean">
                     {c.label}
@@ -49,11 +58,11 @@ export function PageHero({ crumbs, pill, title, lead, ctaLabel, trust, visual }:
             </h1>
             <p className="max-w-[540px] text-[17px] leading-relaxed text-body sm:text-[19px]">{lead}</p>
             <div className="flex flex-wrap gap-3">
-              <ButtonLink href="/#teklif" trailingArrow>
+              <ButtonLink href={anchorHref(locale, "quote")} trailingArrow>
                 {ctaLabel}
               </ButtonLink>
-              <ButtonLink href={whatsappHref()} variant="secondary" icon="chat">
-                WhatsApp&apos;tan yazın
+              <ButtonLink href={whatsappHref(anchorHref(locale, "contact"), d.common.whatsappMessage)} variant="secondary" icon="chat">
+                {d.common.whatsapp}
               </ButtonLink>
             </div>
             {trust && <CheckList items={trust} className="mt-1" />}

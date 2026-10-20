@@ -2,25 +2,11 @@
 
 import { useState, type FormEvent, type ReactNode } from "react";
 import { Icon } from "@/components/ui/icon";
+import type { Dictionary } from "@/i18n/dictionaries";
 import { cn } from "@/lib/cn";
 
-const projectTypes = [
-  "Web sitesi",
-  "E-ticaret",
-  "Mobil uygulama",
-  "Özel yazılım",
-  "Yapay zekâ",
-  "Oyun",
-  "Grafik tasarım",
-  "Dijital pazarlama",
-  "Henüz emin değilim",
-];
-
-const timings = [
-  { label: "Hemen", sub: "Önümüzdeki birkaç hafta içinde" },
-  { label: "1–3 ay içinde", sub: "Planlama aşamasındayız" },
-  { label: "Henüz fikir aşamasında", sub: "Önce fikir alışverişi yapmak istiyorum" },
-];
+/** Wizard copy with the step labels pre-rendered (functions can't cross to the client). */
+export type WizardStrings = Omit<Dictionary["wizard"], "step"> & { stepLabels: string[] };
 
 const primaryBtn =
   "inline-flex min-h-[50px] items-center gap-2.5 rounded-xl bg-ocean px-6 text-base font-bold text-white transition-colors hover:bg-ocean-700 disabled:cursor-not-allowed disabled:opacity-50";
@@ -28,12 +14,12 @@ const backBtn = "min-h-11 px-1.5 text-[15px] font-bold text-body hover:text-navy
 const inputClass =
   "min-h-[50px] w-full rounded-xl border-[1.5px] border-line-2 bg-white px-3.5 text-base text-navy outline-none focus:border-ocean focus:ring-4 focus:ring-ocean/15";
 
-export function QuoteWizard() {
+export function QuoteWizard({ t }: { t: WizardStrings }) {
   const [step, setStep] = useState(1);
-  const [types, setTypes] = useState<string[]>([projectTypes[0]]);
+  const [types, setTypes] = useState<number[]>([0]);
   const [timing, setTiming] = useState(1);
 
-  const toggleType = (t: string) => setTypes((cur) => (cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]));
+  const toggleType = (i: number) => setTypes((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]));
 
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +29,7 @@ export function QuoteWizard() {
 
   const restart = () => {
     setStep(1);
-    setTypes([projectTypes[0]]);
+    setTypes([0]);
     setTiming(1);
   };
 
@@ -52,12 +38,12 @@ export function QuoteWizard() {
       {step < 4 && (
         <div className="flex flex-col gap-2.5">
           <div className="flex justify-between gap-3 text-sm font-bold text-muted">
-            <span>Adım {step} / 3</span>
-            <span>Yaklaşık 1 dakika</span>
+            <span>{t.stepLabels[step - 1]}</span>
+            <span>{t.duration}</span>
           </div>
           <div
             role="progressbar"
-            aria-label="Teklif formu ilerlemesi"
+            aria-label={t.progressLabel}
             aria-valuemin={1}
             aria-valuemax={3}
             aria-valuenow={step}
@@ -70,30 +56,30 @@ export function QuoteWizard() {
 
       {step === 1 && (
         <div className="flex flex-col gap-[22px]">
-          <StepTitle title="Ne yaptırmak istiyorsunuz?" sub="Birden fazla seçebilirsiniz." />
-          <div role="group" aria-label="Proje türü" className="flex flex-wrap gap-2.5">
-            {projectTypes.map((t) => {
-              const on = types.includes(t);
+          <StepTitle title={t.q1} sub={t.q1Sub} />
+          <div role="group" aria-label={t.typesLabel} className="flex flex-wrap gap-2.5">
+            {t.types.map((label, i) => {
+              const on = types.includes(i);
               return (
                 <button
-                  key={t}
+                  key={label}
                   type="button"
                   aria-pressed={on}
-                  onClick={() => toggleType(t)}
+                  onClick={() => toggleType(i)}
                   className={cn(
                     "inline-flex min-h-[46px] items-center gap-2 rounded-full border-[1.5px] px-[18px] text-[15px] font-bold transition-colors",
                     on ? "border-ocean bg-ocean text-white" : "border-line-2 bg-white text-navy hover:border-ocean",
                   )}
                 >
                   {on && <Icon name="check" size={16} strokeWidth={3} />}
-                  {t}
+                  {label}
                 </button>
               );
             })}
           </div>
           <div className="flex justify-end">
             <button type="button" className={primaryBtn} disabled={types.length === 0} onClick={() => setStep(2)}>
-              Devam et
+              {t.next}
               <Icon name="arrowRight" size={18} strokeWidth={2.2} />
             </button>
           </div>
@@ -102,9 +88,9 @@ export function QuoteWizard() {
 
       {step === 2 && (
         <div className="flex flex-col gap-[22px]">
-          <StepTitle title="Ne zaman başlamak istersiniz?" sub="Bütçe ve takvimi ilk görüşmede birlikte netleştiririz." />
-          <div role="radiogroup" aria-label="Başlangıç zamanı" className="flex flex-col gap-2.5">
-            {timings.map((o, i) => {
+          <StepTitle title={t.q2} sub={t.q2Sub} />
+          <div role="radiogroup" aria-label={t.timingLabel} className="flex flex-col gap-2.5">
+            {t.timings.map((o, i) => {
               const on = timing === i;
               return (
                 <button
@@ -131,10 +117,10 @@ export function QuoteWizard() {
           </div>
           <div className="flex items-center justify-between gap-3">
             <button type="button" className={backBtn} onClick={() => setStep(1)}>
-              ← Geri
+              {t.back}
             </button>
             <button type="button" className={primaryBtn} onClick={() => setStep(3)}>
-              Devam et
+              {t.next}
               <Icon name="arrowRight" size={18} strokeWidth={2.2} />
             </button>
           </div>
@@ -143,26 +129,26 @@ export function QuoteWizard() {
 
       {step === 3 && (
         <form className="flex flex-col gap-[22px]" onSubmit={submit}>
-          <StepTitle title="Size nasıl ulaşalım?" sub="Bilgileriniz yalnızca bu talep için kullanılır." />
+          <StepTitle title={t.q3} sub={t.q3Sub} />
           <div className="flex flex-col gap-4">
-            <Field label="Ad Soyad">
-              <input className={inputClass} name="ad" autoComplete="name" placeholder="Adınız ve soyadınız" required />
+            <Field label={t.name}>
+              <input className={inputClass} name="name" autoComplete="name" placeholder={t.namePlaceholder} required />
             </Field>
-            <Field label="Telefon / WhatsApp">
-              <input className={inputClass} name="telefon" type="tel" autoComplete="tel" placeholder="+90 5XX XXX XX XX" required />
+            <Field label={t.phone}>
+              <input className={inputClass} name="phone" type="tel" autoComplete="tel" placeholder="+90 5XX XXX XX XX" required />
             </Field>
-            <Field label="E-posta (isteğe bağlı)">
-              <input className={inputClass} name="eposta" type="email" autoComplete="email" placeholder="ornek@firma.com" />
+            <Field label={t.email}>
+              <input className={inputClass} name="email" type="email" autoComplete="email" placeholder={t.emailPlaceholder} />
             </Field>
-            <input type="hidden" name="turler" value={types.join(", ")} />
-            <input type="hidden" name="zaman" value={timings[timing].label} />
+            <input type="hidden" name="types" value={types.map((i) => t.types[i]).join(", ")} />
+            <input type="hidden" name="timing" value={t.timings[timing].label} />
           </div>
           <div className="flex items-center justify-between gap-3">
             <button type="button" className={backBtn} onClick={() => setStep(2)}>
-              ← Geri
+              {t.back}
             </button>
             <button type="submit" className={primaryBtn}>
-              Teklif iste
+              {t.submit}
             </button>
           </div>
         </form>
@@ -173,14 +159,14 @@ export function QuoteWizard() {
           <span className="flex size-16 items-center justify-center rounded-full bg-[#ddf5ea] text-whatsapp">
             <Icon name="check" size={30} strokeWidth={2.6} />
           </span>
-          <h3 className="text-[26px] font-bold tracking-[-0.02em] text-navy">Teşekkürler!</h3>
-          <p className="text-base leading-relaxed text-muted">Talebiniz bize ulaştı. [Bir iş günü] içinde sizi arayıp projenizi konuşacağız.</p>
+          <h3 className="text-[26px] font-bold tracking-[-0.02em] text-navy">{t.thanks}</h3>
+          <p className="text-base leading-relaxed text-muted">{t.thanksText}</p>
           <button
             type="button"
             onClick={restart}
             className="min-h-[46px] rounded-xl border-[1.5px] border-line-3 bg-white px-[18px] text-[15px] font-bold text-navy hover:border-navy"
           >
-            Yeni talep oluştur
+            {t.restart}
           </button>
         </div>
       )}

@@ -1,3 +1,4 @@
+import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { CITIES, COAST_TRACE, ISLAND_PATH, LAND_TRACES, MAP_VIEWBOX, SEA_TRACES, WAVE_PATH } from "./paths";
 
@@ -10,11 +11,11 @@ const labelOffset = {
 } as const;
 
 /** The homepage map: real Cyprus outline, KKTC cities joined by animated circuit traces. */
-export function HeroMap({ className }: { className?: string }) {
+export function HeroMap({ locale, label, className }: { locale: Locale; label: string; className?: string }) {
   return (
     <div
       role="img"
-      aria-label="Kuzey Kıbrıs haritası: Lefkoşa, Girne, Gazimağusa, Güzelyurt ve İskele devre çizgileriyle birbirine bağlı"
+      aria-label={label}
       className={cn("relative w-full", className)}
       style={{ aspectRatio: `${vw} / ${vh}` }}
     >
@@ -52,19 +53,19 @@ export function HeroMap({ className }: { className?: string }) {
         </g>
         <g fill="none" stroke="#FFFFFF" strokeWidth="0.8">
           {CITIES.map((c, i) => (
-            <circle key={c.name} className="node-halo" cx={c.x} cy={c.y} r={"hub" in c ? 3.6 : 2.8} style={{ animationDelay: `${-0.6 * i}s` }} />
+            <circle key={c.name.tr} className="node-halo" cx={c.x} cy={c.y} r={"hub" in c ? 3.6 : 2.8} style={{ animationDelay: `${-0.6 * i}s` }} />
           ))}
         </g>
         <g fill="#042554" stroke="#FFFFFF" strokeWidth="1.4">
           {CITIES.map((c) => (
-            <circle key={c.name} cx={c.x} cy={c.y} r={"hub" in c ? 3.6 : 2.8} />
+            <circle key={c.name.tr} cx={c.x} cy={c.y} r={"hub" in c ? 3.6 : 2.8} />
           ))}
         </g>
       </svg>
 
       {CITIES.map((c) => (
         <span
-          key={c.name}
+          key={c.name.tr}
           aria-hidden="true"
           className={cn(
             "absolute rounded-md bg-navy px-[7px] py-[3px] text-[11px] font-bold whitespace-nowrap text-white shadow-[0_8px_18px_-10px_rgba(4,37,84,0.6)] sm:rounded-lg sm:px-2.5 sm:py-[5px] sm:text-[13px]",
@@ -72,7 +73,7 @@ export function HeroMap({ className }: { className?: string }) {
           )}
           style={{ left: `${((c.x - vx) / vw) * 100}%`, top: `${((c.y - vy) / vh) * 100}%` }}
         >
-          {c.name}
+          {c.name[locale]}
         </span>
       ))}
     </div>

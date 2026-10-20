@@ -2,33 +2,39 @@ import { IslandWatermark } from "@/components/brand/hero-map";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Icon } from "@/components/ui/icon";
 import { Container } from "@/components/ui/layout";
+import type { Locale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { anchorHref, anchorId } from "@/i18n/routes";
 import { site, whatsappHref } from "@/content/site";
 
 type Props = {
+  locale: Locale;
   title?: string;
   text?: string;
   showContacts?: boolean;
 };
 
-export function CtaBand({
-  title = "Bir kahve içip projenizi konuşalım.",
-  text = "Lefkoşa, Girne, Gazimağusa ya da online. Size en uygun yerde buluşalım.",
-  showContacts = true,
-}: Props) {
+export function CtaBand({ locale, title, text, showContacts = true }: Props) {
+  const d = getDictionary(locale);
+  const contactHref = anchorHref(locale, "contact");
   return (
-    <section id="iletisim" aria-labelledby="iletisim-title" className="relative scroll-mt-4 overflow-hidden bg-navy px-5 py-20 sm:px-8 sm:py-26">
+    <section
+      id={anchorId(locale, "contact")}
+      aria-labelledby="iletisim-title"
+      className="relative scroll-mt-4 overflow-hidden bg-navy px-5 py-20 sm:px-8 sm:py-26"
+    >
       <IslandWatermark className="pointer-events-none absolute top-1/2 -right-15 hidden w-[640px] -translate-y-1/2 opacity-10 lg:block" />
       <Container className="relative flex flex-col items-start gap-6">
         <h2 id="iletisim-title" className="max-w-[720px] text-[34px] leading-[1.1] font-extrabold tracking-[-0.03em] text-white sm:text-[50px]">
-          {title}
+          {title ?? d.cta.homeTitle}
         </h2>
-        <p className="max-w-[580px] text-lg leading-relaxed text-on-dark">{text}</p>
+        <p className="max-w-[580px] text-lg leading-relaxed text-on-dark">{text ?? d.cta.homeText}</p>
         <div className="mt-2 flex flex-wrap gap-3">
-          <ButtonLink href={whatsappHref()} variant="aqua" icon="chat">
-            WhatsApp&apos;tan yazın
+          <ButtonLink href={whatsappHref(contactHref, d.common.whatsappMessage)} variant="aqua" icon="chat">
+            {d.common.whatsapp}
           </ButtonLink>
-          <ButtonLink href="/#teklif" variant="ghostLight">
-            Teklif formunu doldurun
+          <ButtonLink href={anchorHref(locale, "quote")} variant="ghostLight">
+            {d.cta.form}
           </ButtonLink>
         </div>
         {showContacts && (
@@ -43,7 +49,7 @@ export function CtaBand({
             </li>
             <li className="flex items-center gap-2.5">
               <Icon name="pin" size={18} strokeWidth={2} className="text-aqua" />
-              {site.contact.address}
+              {site.contact.address[locale]}
             </li>
           </ul>
         )}
