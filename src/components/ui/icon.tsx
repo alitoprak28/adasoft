@@ -28,6 +28,7 @@ const paths = {
   store: <><path d="M4 10v10h16V10" /><path d="M3 6.5L4.5 3h15L21 6.5V8a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0V6.5zM10 20v-5h4v5" /></>,
   check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
   arrowRight: <path d="M5 12h14M13 6l6 6-6 6" />,
+  external: <path d="M7 17L17 7M9 7h8v8" />,
   chevronDown: <path d="M6 9l6 6 6-6" />,
   chat: <path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z" />,
   whatsapp: <><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z" /><path d="M9.5 9.5c.3 1.9 2.1 3.8 4 4.2" /></>,

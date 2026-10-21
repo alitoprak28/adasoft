@@ -55,7 +55,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {text.projects.map((p) => (
-              <ProjectCard key={p.title} project={p} screenshotLabel={d.common.screenshot} />
+              <ProjectCard key={p.title} project={p} screenshotLabel={d.common.screenshot} visitLabel={d.common.visitSite} />
             ))}
           </div>
         </Container>

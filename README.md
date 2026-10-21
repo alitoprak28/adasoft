@@ -27,6 +27,7 @@ npm run lint
 | `src/components/sections` | Sayfalar arası ortak bölümler (sayfa başlığı, SSS, süreç, CTA, proje kartları) |
 | `src/components/layout` | Üst menü (açılır menüler dahil), TR/EN dil düğmesi, footer, WhatsApp butonu |
 | `src/components/brand` | Logo, Kıbrıs haritası (Natural Earth kıyı verisi) |
+| `src/assets/projects` | Proje kartlarındaki site ekran görüntüleri (1280×800 WebP) |
 | `src/app/globals.css` | Marka renkleri (`@theme`), animasyonlar |
 
 Yeni bir hizmet ya da sektör eklemek için `src/i18n/routes.ts` içine iki dilde slug'ını, ilgili içerik dosyasına da TR + EN metnini eklemek yeterli; sayfalar, menü, footer ve site haritası otomatik güncellenir. Bir dilde slug ya da zorunlu bir metin alanı eksikse TypeScript hata verir.

@@ -1,5 +1,9 @@
 // Company-wide facts. Values in [brackets] are placeholders the founders still need to fill in.
+import type { StaticImageData } from "next/image";
 import type { IconName } from "@/components/ui/icon";
+import kayaPlusShot from "@/assets/projects/kaya-plus.webp";
+import makasUsturaShot from "@/assets/projects/makas-ustura.webp";
+import mesaryaShot from "@/assets/projects/mesarya-motors.webp";
 import type { Locale } from "@/i18n/config";
 
 export const site = {
@@ -32,7 +36,14 @@ export function whatsappHref(fallback: string, message?: string) {
 export const phoneHref = `tel:${site.contact.phoneDisplay.replace(/[^+\d]/g, "")}`;
 export const emailHref = `mailto:${site.contact.email}`;
 
-export type Project = { tag: string; title: string; summary: string };
+export type Project = {
+  tag: string;
+  title: string;
+  summary: string;
+  /** Live site, opened in a new tab. */
+  href?: string;
+  image?: { src: StaticImageData; alt: string };
+};
 type Step = { title: string; text: string };
 
 type SiteText = {
@@ -65,11 +76,31 @@ const text: Record<Locale, SiteText> = {
       { name: "[Ad Soyad]", role: "Kurucu Ortak · [Uzmanlık alanı]" },
       { name: "[Ad Soyad]", role: "Kurucu Ortak · [Uzmanlık alanı]" },
     ],
-    // Placeholder case studies until the first real projects are written up.
     projects: [
-      { tag: "Turizm ve Otel", title: "[Otel adı] · Rezervasyon sitesi", summary: "[Kısa özet: müşterinin sorunu, kurduğumuz çözüm ve elde edilen sonuç.]" },
-      { tag: "Mobil Uygulama", title: "[Uygulama adı] · Mobil uygulama", summary: "[Kısa özet: müşterinin sorunu, kurduğumuz çözüm ve elde edilen sonuç.]" },
-      { tag: "Oyun", title: "[Oyun adı] · Mobil oyun", summary: "[Kısa özet: oyunun türü, platformlar ve yayın bilgisi.]" },
+      {
+        tag: "Otomotiv",
+        title: "Mesarya Motors · Araç galerisi sitesi",
+        summary:
+          "İkinci el araç galerisi için canlı stok vitrini: marka ve bütçe filtresi, peşin fiyatın yanında aylık ödeme, araç karşılaştırma, takas değerleme formu ve tek dokunuşla WhatsApp'tan soru.",
+        href: "https://aracgaleri.vercel.app/",
+        image: { src: mesaryaShot, alt: "Mesarya Motors sitesinin ana sayfası" },
+      },
+      {
+        tag: "Mali danışmanlık",
+        title: "Kaya Plus · Kurumsal web sitesi",
+        summary:
+          "KKTC'de şirket kuruluşu, muhasebe ve vergi danışmanlığı yapan firmanın dört dilli (TR, EN, RU, FA) sitesi: şirket yapılarını karşılaştırma, kuruluş maliyet planlayıcısı ve vergi rehberi.",
+        href: "https://kayaplus.net/kktc-sirket-kurma.html",
+        image: { src: kayaPlusShot, alt: "Kaya Plus sitesinin ana sayfası" },
+      },
+      {
+        tag: "Berber ve kuaför",
+        title: "Makas & Ustura · Online randevu sistemi",
+        summary:
+          "Erkek berberi için uygulama indirmeden, şifresiz online randevu: berber ve hizmet seçimi, gün ve saat, WhatsApp'tan onay ve hatırlatma. Seçilen saç modeli randevuya not olarak düşüyor; berberlerin kendi paneli var.",
+        href: "https://berberuygulama.vercel.app/",
+        image: { src: makasUsturaShot, alt: "Makas & Ustura sitesinin ana sayfası" },
+      },
     ],
   },
   en: {
@@ -93,9 +124,30 @@ const text: Record<Locale, SiteText> = {
       { name: "[Full name]", role: "Co-founder · [Area of expertise]" },
     ],
     projects: [
-      { tag: "Tourism & Hotels", title: "[Hotel name] · Booking website", summary: "[Short summary: the client's problem, our solution and the result.]" },
-      { tag: "Mobile App", title: "[App name] · Mobile app", summary: "[Short summary: the client's problem, our solution and the result.]" },
-      { tag: "Game", title: "[Game name] · Mobile game", summary: "[Short summary: genre, platforms and release details.]" },
+      {
+        tag: "Automotive",
+        title: "Mesarya Motors · Car dealership website",
+        summary:
+          "A live stock showroom for a used car dealership: brand and budget filters, monthly payments next to cash prices, side-by-side comparison, a trade-in valuation form and one-tap WhatsApp enquiries.",
+        href: "https://aracgaleri.vercel.app/",
+        image: { src: mesaryaShot, alt: "Mesarya Motors website home page" },
+      },
+      {
+        tag: "Financial advisory",
+        title: "Kaya Plus · Corporate website",
+        summary:
+          "A four-language (TR, EN, RU, FA) site for a Northern Cyprus firm offering company formation, accounting and tax advice: a company structure comparison, a set-up cost planner and a tax guide.",
+        href: "https://kayaplus.net/kktc-sirket-kurma.html",
+        image: { src: kayaPlusShot, alt: "Kaya Plus website home page" },
+      },
+      {
+        tag: "Barbers & salons",
+        title: "Makas & Ustura · Online booking system",
+        summary:
+          "No-app, no-password online booking for a men's barber: pick a barber and service, a day and time, then confirm on WhatsApp with a reminder. The chosen haircut style is added to the booking as a note, and barbers get their own panel.",
+        href: "https://berberuygulama.vercel.app/",
+        image: { src: makasUsturaShot, alt: "Makas & Ustura website home page" },
+      },
     ],
   },
 };
