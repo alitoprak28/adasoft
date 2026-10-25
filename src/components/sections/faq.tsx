@@ -33,8 +33,8 @@ export function FaqSection({ locale, title, items }: { locale: Locale; title: st
         </div>
         <div className="flex flex-col gap-3">
           {items.map((f) => (
-            <details key={f.q} className="faq rounded-2xl border border-line bg-white">
-              <summary className="flex min-h-16 cursor-pointer items-center justify-between gap-4 px-[22px] py-[18px] text-[17px] font-bold text-navy">
+            <details key={f.q} className="faq rounded-2xl border border-line bg-white transition-shadow open:shadow-card">
+              <summary className="flex min-h-16 cursor-pointer items-center justify-between gap-4 px-[22px] py-[18px] text-[17px] font-semibold text-navy">
                 {f.q}
                 <Icon name="chevronDown" size={20} strokeWidth={2.4} className="faq-chev shrink-0 text-ocean" />
               </summary>

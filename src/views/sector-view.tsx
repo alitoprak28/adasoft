@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FaqSection } from "@/components/sections/faq";
 import { FeatureGrid } from "@/components/sections/feature-grid";
-import { BookingMockup, IconTileVisual } from "@/components/sections/hero-visuals";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProjectCard } from "@/components/sections/project-cards";
 import { Container, Section } from "@/components/ui/layout";
+import { SectorVisual } from "@/components/visuals/sector-visuals";
 import { Eyebrow, SectionHeading, SectionTitle } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -60,7 +60,7 @@ export function SectorView({ locale, slug }: { locale: Locale; slug: string }) {
         lead={sector.lead}
         ctaLabel={t.cta}
         trust={sector.trust}
-        visual={sector.visual === "booking" ? <BookingMockup t={d.visuals.booking} /> : <IconTileVisual icon={sector.icon} label={sector.title} />}
+        visual={<SectorVisual id={id} locale={locale} />}
       />
 
       {sector.problems && (
@@ -70,8 +70,8 @@ export function SectorView({ locale, slug }: { locale: Locale; slug: string }) {
             <ol className="grid gap-5 md:grid-cols-3">
               {sector.problems.map((p, i) => (
                 <li key={p.title} className="flex flex-col gap-3.5 rounded-[20px] border border-line bg-white p-[30px]">
-                  <span className="text-[15px] font-extrabold text-ocean">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="text-[21px] leading-[1.3] font-bold text-navy">{p.title}</h3>
+                  <span className="flex size-10 items-center justify-center rounded-full bg-sky-soft font-display text-[15px] font-bold text-ocean">{i + 1}</span>
+                  <h3 className="text-xl leading-[1.3] font-semibold text-navy">{p.title}</h3>
                   <p className="text-[15.5px] leading-relaxed text-muted">{p.text}</p>
                 </li>
               ))}

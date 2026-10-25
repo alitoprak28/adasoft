@@ -1,24 +1,30 @@
 @import "tailwindcss";
 
-/* AdaSoft brand tokens — colors sampled from the logo. */
+/* AdaSoft brand tokens — colors sampled from the logo: a navy ground, the ocean-to-aqua island gradient,
+   and cool neutrals. Use these names instead of raw hex values so every surface stays in the same family. */
 @theme {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-archivo), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display--font-variation-settings: "wdth" 112;
 
-  --color-navy: #042554;
+  --color-abyss: #021431;
   --color-navy-950: #031b3f;
+  --color-navy: #042554;
   --color-navy-800: #0a3470;
   --color-ocean: #1562c7;
   --color-ocean-700: #0f4fa6;
+  --color-sea: #0fa1d3;
   --color-aqua: #11d7cf;
   --color-aqua-soft: #7dede7;
   --color-lagoon: #08b0be;
   --color-lagoon-ink: #067a86;
   --color-lagoon-deep: #065f69;
-  --color-mist: #f2f7fb;
-  --color-mist-2: #e8f1f9;
-  --color-sky-soft: #e6f1fb;
+  --color-mist: #f3f7fb;
+  --color-mist-2: #e9f0f8;
+  --color-sky-soft: #e7f0fb;
   --color-foam: #ddf1f4;
-  --color-line: #dce6f0;
+  --color-mint: #ddf5ea;
+  --color-line: #dde6f0;
   --color-line-2: #c9d6e6;
   --color-line-3: #9fb4cc;
   --color-ink: #2b3a55;
@@ -28,34 +34,106 @@
   --color-on-dark-2: #c5d3e6;
   --color-on-dark-3: #7fa0c6;
   --color-whatsapp: #0e7a41;
+  /* Status colour for warnings inside the illustrative screens (low stock and the like). */
+  --color-amber: #a3560a;
+  --color-amber-soft: #fdf0dc;
+
+  --shadow-card: 0 1px 2px rgba(4, 37, 84, 0.04), 0 22px 40px -26px rgba(4, 37, 84, 0.38);
+  --shadow-float: 0 40px 80px -40px rgba(2, 20, 49, 0.7);
+  --shadow-cta: 0 14px 28px -14px rgba(21, 98, 199, 0.8);
+  --shadow-glow: 0 14px 34px -14px rgba(17, 215, 207, 0.7);
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Keeps anchored sections clear of the sticky header. */
+    scroll-padding-top: 4.5rem;
   }
   body {
-    @apply bg-navy-950 font-sans text-navy antialiased;
+    @apply bg-abyss font-sans text-navy antialiased;
   }
   h1,
   h2,
   h3 {
+    font-family: var(--font-display);
+    font-variation-settings: "wdth" 112;
     text-wrap: balance;
+  }
+  ::selection {
+    background: rgba(17, 215, 207, 0.35);
+    color: var(--color-navy);
   }
   :focus-visible {
     outline: 3px solid var(--color-ocean);
     outline-offset: 2px;
   }
+  .bg-deep :focus-visible,
+  .bg-navy :focus-visible,
+  .bg-navy-950 :focus-visible {
+    outline-color: var(--color-aqua);
+  }
 }
 
-@utility dots-light {
-  background-image: radial-gradient(rgba(4, 37, 84, 0.09) 1px, transparent 1.3px);
-  background-size: 22px 22px;
+/* The dark ground used by page heroes and the closing band: navy lit from where the island sits. */
+@utility bg-deep {
+  background-color: var(--color-navy-950);
+  background-image:
+    radial-gradient(55% 75% at 76% 45%, rgba(21, 98, 199, 0.45), transparent 72%),
+    radial-gradient(45% 60% at 0% 100%, rgba(17, 215, 207, 0.1), transparent 70%);
 }
 
-@utility dots-dark {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.3px);
-  background-size: 22px 22px;
+/* Page-load sequence for the hero: copy rises in, the island fades up, then the circuit draws itself. */
+.rise {
+  animation: rise 0.75s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.map-in {
+  transform-origin: 60% 50%;
+  animation: map-in 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.trace-draw {
+  stroke-dasharray: 100;
+  animation: trace-draw 1.3s ease-out both;
+}
+.node-in {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: node-in 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes map-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes trace-draw {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes node-in {
+  from {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 /* Hero map and decorative motion */

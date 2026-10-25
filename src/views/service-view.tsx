@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FaqSection } from "@/components/sections/faq";
 import { FeatureGrid } from "@/components/sections/feature-grid";
-import { IconTileVisual, PhoneMockup } from "@/components/sections/hero-visuals";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProcessSteps, StepList } from "@/components/sections/process-steps";
 import { ProjectCard } from "@/components/sections/project-cards";
 import { Icon } from "@/components/ui/icon";
+import { ServiceVisual } from "@/components/visuals/service-visuals";
 import { Container, Section } from "@/components/ui/layout";
 import { Eyebrow, SectionHeading, SectionTitle } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
@@ -56,7 +56,7 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
         lead={service.lead}
         ctaLabel={t.cta}
         trust={service.trust}
-        visual={id === "mobile" ? <PhoneMockup t={d.visuals.phone} /> : <IconTileVisual icon={service.icon} label={name} />}
+        visual={<ServiceVisual id={id} locale={locale} />}
       />
 
       <Section aria-labelledby="neler-title">
@@ -82,8 +82,8 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
               <StepList steps={service.process.steps} />
             </div>
             {service.standards && (
-              <div className="flex flex-col gap-[22px] rounded-3xl border border-line bg-white p-7 shadow-[0_28px_56px_-36px_rgba(4,37,84,0.35)] sm:p-9">
-                <h3 className="text-2xl font-extrabold tracking-[-0.02em] text-navy">{service.standards.title}</h3>
+              <div className="flex flex-col gap-[22px] rounded-3xl border border-line bg-white p-7 shadow-card sm:p-9">
+                <h3 className="text-2xl font-bold tracking-[-0.02em] text-navy">{service.standards.title}</h3>
                 <ul className="grid gap-x-5 gap-y-3.5 text-[15.5px] font-semibold text-ink sm:grid-cols-2">
                   {service.standards.items.map((s) => (
                     <li key={s} className="flex items-start gap-2.5">
@@ -92,7 +92,7 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
                     </li>
                   ))}
                 </ul>
-                <div className="mt-1.5 flex flex-wrap items-center justify-between gap-3.5 border-t border-[#e3ecf5] pt-[22px]">
+                <div className="mt-1.5 flex flex-wrap items-center justify-between gap-3.5 border-t border-line pt-[22px]">
                   <p className="text-[15px] text-body">
                     {t.priceFrom} <strong className="text-navy">{t.pricePlaceholder}</strong>
                     {t.priceSuffix}
@@ -127,7 +127,7 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
 
       <Section compact aria-labelledby="diger-title">
         <Container className="flex flex-wrap items-center justify-between gap-6">
-          <h2 id="diger-title" className="text-[22px] font-extrabold tracking-[-0.01em] text-navy">
+          <h2 id="diger-title" className="text-[22px] font-bold tracking-[-0.02em] text-navy">
             {t.others}
           </h2>
           <ul className="flex flex-wrap gap-2.5">
@@ -135,7 +135,7 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
               <li key={s.id}>
                 <Link
                   href={s.href}
-                  className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-line-2 bg-white px-4 text-[15px] font-bold text-navy transition-colors hover:border-ocean hover:bg-[#eef5fd]"
+                  className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-line-2 bg-white px-4 text-[15px] font-bold text-navy transition-colors hover:border-ocean hover:bg-sky-soft"
                 >
                   {s.shortTitle ?? s.title}
                 </Link>
