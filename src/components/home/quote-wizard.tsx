@@ -9,15 +9,23 @@ import { cn } from "@/lib/cn";
 export type WizardStrings = Omit<Dictionary["wizard"], "step"> & { stepLabels: string[] };
 
 const primaryBtn =
-  "inline-flex min-h-[50px] items-center gap-2.5 rounded-xl bg-ocean px-6 text-base font-bold text-white transition-colors hover:bg-ocean-700 disabled:cursor-not-allowed disabled:opacity-50";
-const backBtn = "min-h-11 px-1.5 text-[15px] font-bold text-body hover:text-navy";
+  "inline-flex min-h-[50px] items-center gap-2.5 rounded-xl bg-ocean px-5 text-base font-bold sm:px-6 text-white transition-colors hover:bg-ocean-700 disabled:cursor-not-allowed disabled:opacity-50";
+const backBtn = "min-h-11 px-1.5 text-[15px] font-bold whitespace-nowrap text-body hover:text-navy";
 const inputClass =
   "min-h-[50px] w-full rounded-xl border-[1.5px] border-line-2 bg-white px-3.5 text-base text-navy outline-none focus:border-ocean focus:ring-4 focus:ring-ocean/15";
 
-export function QuoteWizard({ t }: { t: WizardStrings }) {
+type Props = {
+  t: WizardStrings;
+  /** wa.me link the request is sent to; null while no number is configured. */
+  whatsappBase: string | null;
+  consentHref: string;
+};
+
+export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
   const [step, setStep] = useState(1);
   const [types, setTypes] = useState<number[]>([0]);
   const [timing, setTiming] = useState(1);
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const stepChanged = useRef(false);
@@ -38,9 +46,25 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
 
   const toggleType = (i: number) => setTypes((cur) => (cur.includes(i) ? cur.filter((x) => x !== i) : [...cur, i]));
 
+  // The request is not stored anywhere: it becomes a WhatsApp message the visitor sends themselves.
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: send the request (e.g. a server action that emails it via Resend) once the inbox is decided.
+    const form = new FormData(e.currentTarget);
+    const field = (name: string) => String(form.get(name) ?? "").trim();
+    const lines = [
+      t.waGreeting,
+      "",
+      `${t.waNeeds}: ${types.map((i) => t.types[i]).join(", ")}`,
+      `${t.waTiming}: ${t.timings[timing].label}`,
+      `${t.waName}: ${field("name")}`,
+      `${t.waPhone}: ${field("phone")}`,
+    ];
+    if (field("email")) lines.push(`${t.waEmail}: ${field("email")}`);
+    if (whatsappBase) {
+      const url = `${whatsappBase}?text=${encodeURIComponent(lines.join("\n"))}`;
+      setWhatsappUrl(url);
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
     goTo(4);
   };
 
@@ -48,6 +72,7 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
     goTo(1);
     setTypes([0]);
     setTiming(1);
+    setWhatsappUrl(null);
   };
 
   return (
@@ -157,16 +182,29 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
             <Field label={t.email}>
               <input className={inputClass} name="email" type="email" autoComplete="email" placeholder={t.emailPlaceholder} />
             </Field>
-            <input type="hidden" name="types" value={types.map((i) => t.types[i]).join(", ")} />
-            <input type="hidden" name="timing" value={t.timings[timing].label} />
+            <label className="flex items-start gap-3 py-1 text-sm leading-relaxed text-body">
+              <input type="checkbox" name="consent" required className="mt-0.5 size-5 shrink-0 accent-ocean" />
+              <span>
+                {t.consentBefore}
+                <a href={consentHref} target="_blank" rel="noopener" className="font-bold text-ocean underline underline-offset-2 hover:text-ocean-700">
+                  {t.consentLink}
+                </a>
+                {t.consentAfter}
+              </span>
+            </label>
           </div>
-          <div className="flex items-center justify-between gap-3">
-            <button type="button" className={backBtn} onClick={() => goTo(2)}>
-              {t.back}
-            </button>
-            <button type="submit" className={primaryBtn}>
-              {t.submit}
-            </button>
+          <div className="flex flex-col gap-3">
+            {/* Phones: full-width send button with Back underneath, so neither label wraps. */}
+            <div className="flex flex-col-reverse gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
+              <button type="button" className={cn(backBtn, "self-start")} onClick={() => goTo(2)}>
+                {t.back}
+              </button>
+              <button type="submit" className={cn(primaryBtn, "justify-center whitespace-nowrap max-sm:px-4")}>
+                <Icon name="whatsapp" size={20} strokeWidth={2.1} />
+                {t.submit}
+              </button>
+            </div>
+            <p className="text-[13px] leading-snug text-muted sm:text-right">{t.sendNote}</p>
           </div>
         </form>
       )}
@@ -180,6 +218,12 @@ export function QuoteWizard({ t }: { t: WizardStrings }) {
             {t.thanks}
           </h3>
           <p className="text-base leading-relaxed text-muted">{t.thanksText}</p>
+          {whatsappUrl && (
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center gap-2 text-[15px] font-bold text-ocean hover:text-ocean-700">
+              <Icon name="whatsapp" size={18} strokeWidth={2.1} />
+              {t.reopen}
+            </a>
+          )}
           <button
             type="button"
             onClick={restart}

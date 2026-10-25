@@ -48,16 +48,14 @@ export function CtaBand({ locale, title, text, showContacts = true }: Props) {
                 {site.contact.phoneDisplay}
               </a>
             </li>
-            <li>
-              <a href={emailHref} className={contactLink}>
-                <Icon name="mail" size={18} strokeWidth={2} className="text-aqua" />
-                {site.contact.email}
-              </a>
-            </li>
-            <li className="flex items-center gap-2.5">
-              <Icon name="pin" size={18} strokeWidth={2} className="text-aqua" />
-              {site.contact.address[locale]}
-            </li>
+            {site.contact.email && (
+              <li>
+                <a href={emailHref} className={contactLink}>
+                  <Icon name="mail" size={18} strokeWidth={2} className="text-aqua" />
+                  {site.contact.email}
+                </a>
+              </li>
+            )}
           </ul>
         )}
       </Container>

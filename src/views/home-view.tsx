@@ -32,6 +32,7 @@ export function HomeView({ locale }: { locale: Locale }) {
     url: site.url,
     logo: `${site.url}/brand/adasoft-mark.svg`,
     description: text.description,
+    telephone: site.contact.phoneDisplay,
     areaServed: locale === "tr" ? "Kuzey Kıbrıs" : "Northern Cyprus",
     knowsAbout: getServices(locale).map((s) => s.title),
   };

@@ -3,8 +3,8 @@ import { Container, Section } from "@/components/ui/layout";
 import { Eyebrow, SectionTitle } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { anchorHref, anchorId } from "@/i18n/routes";
-import { emailHref, site, whatsappHref } from "@/content/site";
+import { anchorHref, anchorId, legalHref } from "@/i18n/routes";
+import { emailHref, site, whatsappBase, whatsappHref } from "@/content/site";
 import { QuoteWizard } from "./quote-wizard";
 
 // Padding widens the tap area; the negative margin keeps the spacing unchanged.
@@ -28,13 +28,15 @@ export function QuoteSection({ locale }: { locale: Locale }) {
               <Icon name="chat" size={20} strokeWidth={2} className="text-lagoon-ink" />
               {t.whatsappLabel}: {site.contact.phoneDisplay}
             </a>
-            <a href={emailHref} className={contactLink}>
-              <Icon name="mail" size={20} strokeWidth={2} className="text-lagoon-ink" />
-              {t.emailLabel}: {site.contact.email}
-            </a>
+            {site.contact.email && (
+              <a href={emailHref} className={contactLink}>
+                <Icon name="mail" size={20} strokeWidth={2} className="text-lagoon-ink" />
+                {t.emailLabel}: {site.contact.email}
+              </a>
+            )}
           </div>
         </div>
-        <QuoteWizard t={{ ...wizard, stepLabels: [1, 2, 3].map(step) }} />
+        <QuoteWizard t={{ ...wizard, stepLabels: [1, 2, 3].map(step) }} whatsappBase={whatsappBase} consentHref={legalHref(locale, "dataProtection")} />
       </Container>
     </Section>
   );

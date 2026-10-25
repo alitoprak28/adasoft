@@ -26,8 +26,14 @@ export const sectorSlugs = {
   retail: { tr: "kobi-perakende", en: "smes-retail" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
+export const legalSlugs = {
+  privacy: { tr: "gizlilik", en: "privacy" },
+  dataProtection: { tr: "kvkk", en: "data-protection" },
+} as const satisfies Record<string, Record<Locale, string>>;
+
 export type ServiceId = keyof typeof serviceSlugs;
 export type SectorId = keyof typeof sectorSlugs;
+export type LegalId = keyof typeof legalSlugs;
 
 const bases = {
   tr: { home: "/", services: "/hizmetler", sectors: "/sektorler" },
@@ -52,6 +58,7 @@ export const anchorId = (locale: Locale, key: AnchorKey) => anchors[key][locale]
 export const anchorHref = (locale: Locale, key: AnchorKey) => `${bases[locale].home}#${anchors[key][locale]}`;
 export const serviceHref = (locale: Locale, id: ServiceId) => `${bases[locale].services}/${serviceSlugs[id][locale]}`;
 export const sectorHref = (locale: Locale, id: SectorId) => `${bases[locale].sectors}/${sectorSlugs[id][locale]}`;
+export const legalHref = (locale: Locale, id: LegalId) => `${locale === "tr" ? "" : bases[locale].home}/${legalSlugs[id][locale]}`;
 
 export function serviceIdFromSlug(locale: Locale, slug: string): ServiceId | undefined {
   return (Object.keys(serviceSlugs) as ServiceId[]).find((id) => serviceSlugs[id][locale] === slug);
@@ -70,6 +77,8 @@ export function alternateHref(pathname: string, target: Locale): string {
   const from = localeFromPath(pathname);
   if (from === target) return pathname;
   const path = pathname.replace(/\/$/, "") || "/";
+  const legal = (Object.keys(legalSlugs) as LegalId[]).find((id) => legalHref(from, id) === path);
+  if (legal) return legalHref(target, legal);
   for (const kind of ["services", "sectors"] as const) {
     const prefix = `${bases[from][kind]}/`;
     if (!path.startsWith(prefix)) continue;

@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Logo } from "@/components/brand/logo";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { anchorHref, homeHref } from "@/i18n/routes";
+import { anchorHref, homeHref, legalHref } from "@/i18n/routes";
+import { getLegalDoc } from "@/content/legal";
 import { getServices } from "@/content/services";
-import { emailHref, phoneHref, site } from "@/content/site";
+import { emailHref, phoneHref, site, whatsappHref } from "@/content/site";
 
 // Padding instead of a gap gives each link a thumb-sized row without changing the rhythm.
 const linkClass = "py-1.5 text-on-dark transition-colors hover:text-white";
@@ -58,17 +59,27 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <a href={phoneHref} className={linkClass}>
               {site.contact.phoneDisplay}
             </a>
-            <a href={emailHref} className={linkClass}>
-              {site.contact.email}
+            <a href={whatsappHref(anchorHref(locale, "contact"), d.common.whatsappMessage)} target="_blank" rel="noopener noreferrer" className={linkClass}>
+              WhatsApp
             </a>
-            <span className="py-1.5">{site.contact.address[locale]}</span>
+            {site.contact.email && (
+              <a href={emailHref} className={linkClass}>
+                {site.contact.email}
+              </a>
+            )}
           </div>
         </div>
 
         <div className="flex flex-wrap justify-between gap-4 border-t border-white/10 pt-7 text-sm text-on-dark-3">
           {/* Static year on purpose: the page is prerendered once at build time. */}
           <span>{d.footer.rights}</span>
-          <span>{d.footer.legal}</span>
+          <nav aria-label={d.footer.legalLabel} className="flex flex-wrap gap-x-5 gap-y-1">
+            {(["privacy", "dataProtection"] as const).map((id) => (
+              <Link key={id} href={legalHref(locale, id)} className="-my-1.5 py-1.5 transition-colors hover:text-white">
+                {getLegalDoc(locale, id).title}
+              </Link>
+            ))}
+          </nav>
         </div>
       </div>
     </footer>

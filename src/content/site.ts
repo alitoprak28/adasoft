@@ -11,12 +11,13 @@ export const site = {
   // TODO: replace with the real domain before going live.
   url: "https://www.adasoft.example",
   tagline: "NORTHERN CYPRUS | KKTC",
+  // No office address: customers reach us on WhatsApp or by phone.
   contact: {
-    phoneDisplay: "[+90 5XX XXX XX XX]",
-    // Digits only, with country code (e.g. "905331234567"). Empty until the real number is known.
-    whatsappNumber: "",
-    email: "[info@alanadiniz.com]",
-    address: { tr: "[Ofis adresi], KKTC", en: "[Office address], Northern Cyprus" },
+    phoneDisplay: "+90 533 856 71 35",
+    // Digits only, with country code. Every WhatsApp button and the quote form send here.
+    whatsappNumber: "905338567135",
+    // Empty until there is a company inbox; e-mail lines stay hidden while it is empty.
+    email: "" as string,
   },
   social: {
     instagram: "",
@@ -24,12 +25,13 @@ export const site = {
   },
 } as const;
 
+/** Base WhatsApp chat URL, or null while no number is configured. */
+export const whatsappBase: string | null = site.contact.whatsappNumber ? `https://wa.me/${site.contact.whatsappNumber}` : null;
+
 /** WhatsApp chat link, or the given fallback (the contact section) until a number is configured. */
 export function whatsappHref(fallback: string, message?: string) {
-  const number = site.contact.whatsappNumber;
-  if (!number) return fallback;
-  const text = message ? `?text=${encodeURIComponent(message)}` : "";
-  return `https://wa.me/${number}${text}`;
+  if (!whatsappBase) return fallback;
+  return message ? `${whatsappBase}?text=${encodeURIComponent(message)}` : whatsappBase;
 }
 
 /** Phone and e-mail links built from the displayed values, so each is filled in once. */

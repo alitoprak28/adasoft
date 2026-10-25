@@ -45,18 +45,23 @@ Yeni bir hizmet ya da sektör eklemek için `src/i18n/routes.ts` içine iki dild
 - Her sayfa `hreflang` alternatiflerini (`tr`, `en`, `x-default`) ve kendi dilindeki canonical adresini bildirir; site haritası da her sayfanın iki dildeki adresini içerir.
 - Eşleşmeyen adresler `src/app/global-not-found.tsx` içindeki iki dilli 404 sayfasını gösterir.
 
+## İletişim, teklif formu ve yasal metinler
+
+- Telefon ve WhatsApp numarası `src/content/site.ts` içinde (`phoneDisplay`, `whatsappNumber`). Sitedeki bütün WhatsApp butonları ve teklif formu bu numaraya gider. Ofis adresi yok; iletişim WhatsApp ve telefonla.
+- Teklif formu hiçbir veriyi sunucuya kaydetmez: cevapları hazır bir WhatsApp mesajına çevirir, ziyaretçi WhatsApp'ta Gönder'e basınca mesaj gelir. KVKK onay kutusu zorunludur.
+- Yasal metinler `src/content/legal.ts` içinde: Gizlilik ve Çerez Politikası (`/gizlilik`, `/en/privacy`) ve KVKK Aydınlatma Metni (`/kvkk`, `/en/data-protection`). Metinler sitenin bugünkü haline göre yazıldı (çerez ve analiz aracı yok, form WhatsApp'a gidiyor). Bunlardan biri değişirse metinler de güncellenmeli.
+
 ## Yayından önce doldurulacaklar
 
 Köşeli parantez içindeki her metin (`[...]`) bir yer tutucudur:
 
-- `src/content/site.ts`: alan adı (`url`), telefon, WhatsApp numarası (`whatsappNumber`), e-posta, adres, kurucu adları
+- `src/content/site.ts`: alan adı (`url`), e-posta (boşken e-posta satırları gizli), kurucu adları
 - Örnek projeler ve ekran görüntüleri (`projects`, hizmet `showcase`, sektör `audience.example`)
 - Fiyatlar ve süreler (`[₺ başlangıç fiyatı]`, `[X hafta]`)
 - Kurucu fotoğrafları
 
 ## Henüz yapılmayanlar
 
-- Teklif formu gönderimi: form şu an sadece teşekkür ekranı gösteriyor (`src/components/home/quote-wizard.tsx` içindeki TODO).
 - İngilizce metinlerin anadili İngilizce olan biri tarafından gözden geçirilmesi.
-- Gizlilik, çerez ve KVKK sayfaları.
+- Yasal metinlerin bir hukukçu tarafından gözden geçirilmesi; tescilli bir şirket unvanı varsa veri sorumlusu bölümüne eklenmesi.
 - Diğer hizmet ve sektör sayfaları için Mobil Uygulamalar ve Turizm ve Otel'deki kadar ayrıntılı içerik (SSS, süreç, örnekler).
