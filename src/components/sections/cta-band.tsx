@@ -24,11 +24,11 @@ export function CtaBand({ locale, title, text, showContacts = true }: Props) {
     <section
       id={anchorId(locale, "contact")}
       aria-labelledby="iletisim-title"
-      className="relative scroll-mt-4 overflow-hidden bg-navy px-5 py-20 sm:px-8 sm:py-26"
+      className="bg-deep relative scroll-mt-4 overflow-hidden px-5 py-20 sm:px-8 sm:py-28"
     >
-      <IslandWatermark className="pointer-events-none absolute top-1/2 -right-15 hidden w-[640px] -translate-y-1/2 opacity-10 lg:block" />
+      <IslandWatermark className="pointer-events-none absolute top-1/2 -right-24 hidden w-[720px] -translate-y-1/2 lg:block" />
       <Container className="relative flex flex-col items-start gap-6">
-        <h2 id="iletisim-title" className="max-w-[720px] text-[34px] leading-[1.1] font-extrabold tracking-[-0.03em] text-white sm:text-[50px]">
+        <h2 id="iletisim-title" className="max-w-[720px] text-[36px] leading-[1.05] font-bold tracking-[-0.03em] text-white sm:text-[56px]">
           {title ?? d.cta.homeTitle}
         </h2>
         <p className="max-w-[580px] text-lg leading-relaxed text-on-dark">{text ?? d.cta.homeText}</p>
@@ -41,7 +41,7 @@ export function CtaBand({ locale, title, text, showContacts = true }: Props) {
           </ButtonLink>
         </div>
         {showContacts && (
-          <ul className="mt-3 flex flex-wrap gap-x-8 gap-y-3 text-[15.5px] text-on-dark-2">
+          <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6 text-[15.5px] text-on-dark-2">
             <li>
               <a href={phoneHref} className={contactLink}>
                 <Icon name="phone" size={18} strokeWidth={2} className="text-aqua" />

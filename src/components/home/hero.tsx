@@ -5,34 +5,40 @@ import { getDictionary } from "@/i18n/dictionaries";
 import { anchorHref } from "@/i18n/routes";
 import { getSiteText, whatsappHref } from "@/content/site";
 
+const delay = (s: number) => ({ animationDelay: `${s}s` });
+
 export function HomeHero({ locale }: { locale: Locale }) {
   const d = getDictionary(locale);
   const t = d.hero;
   return (
-    <section aria-labelledby="hero-title" className="dots-light bg-mist px-5 pt-6 pb-16 sm:px-8 sm:pt-14 sm:pb-28">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.12fr)] lg:gap-14">
-        <div className="flex flex-col items-start gap-6 sm:gap-7">
-          <p className="inline-flex items-center gap-2.5 rounded-full bg-foam px-3.5 py-2 text-sm font-bold text-lagoon-deep">
-            <span className="size-2 rounded-full bg-aqua" />
-            {t.pill}
-          </p>
-          <h1 id="hero-title" className="text-[42px] leading-[1.04] font-extrabold tracking-[-0.035em] text-navy sm:text-[68px]">
+    <section aria-labelledby="hero-title" className="bg-deep relative overflow-hidden px-5 pt-12 pb-20 sm:px-8 sm:pt-20 sm:pb-28 lg:pt-24 lg:pb-32">
+      <div className="relative mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:gap-10">
+        <div className="flex flex-col items-start gap-7 sm:gap-8">
+          <h1
+            id="hero-title"
+            className="rise text-[46px] leading-[0.98] font-bold tracking-[-0.03em] text-white sm:text-[72px] lg:text-[80px]"
+            style={delay(0)}
+          >
             {t.titleA}
             <br />
-            <span className="text-ocean">{t.titleB}</span>
+            {t.titleB}
           </h1>
-          <p className="max-w-[540px] text-[17px] leading-relaxed text-body sm:text-[19px]">{t.lead}</p>
-          <div className="flex flex-wrap gap-3">
-            <ButtonLink href={anchorHref(locale, "quote")} trailingArrow>
+          <p className="rise max-w-[520px] text-[17px] leading-relaxed text-on-dark-2 sm:text-[19px]" style={delay(0.12)}>
+            {t.lead}
+          </p>
+          <div className="rise flex flex-wrap gap-3" style={delay(0.24)}>
+            <ButtonLink href={anchorHref(locale, "quote")} variant="aqua">
               {t.cta}
             </ButtonLink>
-            <ButtonLink href={whatsappHref(anchorHref(locale, "contact"))} variant="secondary" icon="chat">
+            <ButtonLink href={whatsappHref(anchorHref(locale, "contact"))} variant="ghostLight" icon="chat">
               {d.common.whatsapp}
             </ButtonLink>
           </div>
-          <CheckList items={getSiteText(locale).trustPoints} className="mt-1" />
+          <div className="rise w-full max-w-[520px] border-t border-white/10 pt-6" style={delay(0.36)}>
+            <CheckList items={getSiteText(locale).trustPoints} dark />
+          </div>
         </div>
-        <HeroMap locale={locale} label={t.mapLabel} />
+        <HeroMap locale={locale} label={t.mapLabel} className="mx-auto max-w-[640px] lg:max-w-none" />
       </div>
     </section>
   );

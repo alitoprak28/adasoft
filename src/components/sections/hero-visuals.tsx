@@ -4,13 +4,13 @@ import type { Dictionary } from "@/i18n/dictionaries";
 function CircuitBackdrop() {
   return (
     <svg viewBox="0 0 520 600" aria-hidden="true" className="absolute inset-0 h-full w-full" preserveAspectRatio="none">
-      <g fill="none" stroke="#9CC3EA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <g fill="none" stroke="#7DEDE7" strokeOpacity="0.28" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M0 140H90L130 180" />
         <path d="M520 120H430L400 150" />
         <path d="M0 460H70L110 420" />
         <path d="M520 470H440L410 440" />
       </g>
-      <g fill="#F2F7FB" stroke="#11D7CF" strokeWidth="2.5">
+      <g fill="#031B3F" stroke="#11D7CF" strokeWidth="2.5">
         <circle cx="134" cy="184" r="6" />
         <circle cx="396" cy="154" r="6" />
         <circle cx="114" cy="416" r="6" />
@@ -25,7 +25,7 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
   return (
     <div aria-hidden="true" className="relative flex justify-center py-3">
       <CircuitBackdrop />
-      <div className="relative h-[590px] w-[290px] rounded-[46px] bg-navy p-3 shadow-[0_40px_80px_-40px_rgba(4,37,84,0.65)]">
+      <div className="relative h-[590px] w-[290px] rounded-[46px] bg-navy p-3 shadow-float ring-1 ring-white/15">
         <div className="flex h-full flex-col overflow-hidden rounded-[36px] bg-mist">
           <div className="flex items-center justify-between bg-white px-5 pt-[30px] pb-4">
             <div className="flex flex-col gap-0.5">
@@ -36,9 +36,9 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
           </div>
           <div className="flex flex-col gap-3 p-4">
             <div className="flex flex-col gap-2.5 rounded-[18px] bg-ocean p-4 text-white">
-              <span className="text-xs font-bold text-[#cfe3fa]">{t.booking}</span>
+              <span className="text-xs font-bold text-white/75">{t.booking}</span>
               <span className="text-[17px] font-extrabold">{t.when}</span>
-              <span className="text-[12.5px] text-[#dcebfb]">{t.party}</span>
+              <span className="text-[12.5px] text-white/85">{t.party}</span>
               <span className="mt-1 self-start rounded-full bg-white px-3 py-1.5 text-xs font-extrabold text-ocean">{t.details}</span>
             </div>
             <span className="px-0.5 pt-1 text-[13px] font-extrabold text-navy">{t.offers}</span>
@@ -47,14 +47,14 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
                 [...t.offer1, "bg-foam"],
                 [...t.offer2, "bg-sky-soft"],
               ].map(([title, sub, bg]) => (
-                <div key={title} className="flex flex-col gap-1.5 rounded-2xl border border-[#e3ecf5] bg-white p-3.5">
+                <div key={title} className="flex flex-col gap-1.5 rounded-2xl border border-line bg-white p-3.5">
                   <span className={`size-7 rounded-lg ${bg}`} />
                   <span className="text-[12.5px] font-bold text-navy">{title}</span>
                   <span className="text-[11px] text-muted">{sub}</span>
                 </div>
               ))}
             </div>
-            <div className="flex items-center gap-3 rounded-2xl border border-[#e3ecf5] bg-white px-3.5 py-3">
+            <div className="flex items-center gap-3 rounded-2xl border border-line bg-white px-3.5 py-3">
               <span className="size-8 rounded-[10px] bg-mist" />
               <span className="flex flex-1 flex-col gap-0.5">
                 <span className="text-[12.5px] font-bold text-navy">{t.orders}</span>
@@ -63,15 +63,15 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
               <span className="text-sm text-line-3">›</span>
             </div>
           </div>
-          <div className="mt-auto flex justify-around border-t border-[#e3ecf5] bg-white px-2.5 pt-3.5 pb-[18px]">
-            {["bg-ocean", "bg-[#d3e0ec]", "bg-[#d3e0ec]", "bg-[#d3e0ec]"].map((c, i) => (
+          <div className="mt-auto flex justify-around border-t border-line bg-white px-2.5 pt-3.5 pb-[18px]">
+            {["bg-ocean", "bg-line-2", "bg-line-2", "bg-line-2"].map((c, i) => (
               <span key={i} className={`size-[22px] rounded-[7px] ${c}`} />
             ))}
           </div>
         </div>
       </div>
-      <div className="float-y absolute top-[110px] left-[calc(50%_-_145px_-_200px)] hidden items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-[0_20px_40px_-24px_rgba(4,37,84,0.45)] xl:flex">
-        <span className="flex size-9 items-center justify-center rounded-[10px] bg-[#ddf5ea] text-whatsapp">
+      <div className="float-y absolute top-[110px] left-[calc(50%_-_145px_-_200px)] hidden items-center gap-3 rounded-2xl border border-line bg-white px-4 py-3.5 shadow-float xl:flex">
+        <span className="flex size-9 items-center justify-center rounded-[10px] bg-mint text-whatsapp">
           <Icon name="bell" size={18} strokeWidth={2.2} />
         </span>
         <span className="flex flex-col gap-0.5">
@@ -79,7 +79,7 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
           <span className="text-xs text-muted">{t.notificationSub}</span>
         </span>
       </div>
-      <div className="float-y absolute bottom-[150px] left-[calc(50%_+_110px)] hidden items-center gap-2.5 rounded-full bg-navy px-4 py-3 text-white shadow-[0_20px_40px_-24px_rgba(4,37,84,0.6)] [animation-delay:-2s] xl:flex">
+      <div className="float-y absolute bottom-[150px] left-[calc(50%_+_110px)] hidden items-center gap-2.5 rounded-full bg-navy px-4 py-3 text-white shadow-float ring-1 ring-white/15 [animation-delay:-2s] xl:flex">
         <Icon name="check" size={18} strokeWidth={2.4} className="text-aqua" />
         <span className="text-sm font-bold whitespace-nowrap">{t.badge}</span>
       </div>
@@ -91,8 +91,8 @@ export function PhoneMockup({ t }: { t: Dictionary["visuals"]["phone"] }) {
 export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
   return (
     <figure aria-label={t.label} className="relative m-0 lg:pl-7">
-      <div aria-hidden="true" className="overflow-hidden rounded-3xl border border-line bg-white shadow-[0_40px_80px_-40px_rgba(4,37,84,0.55)]">
-        <div className="relative h-[210px] overflow-hidden bg-navy">
+      <div aria-hidden="true" className="overflow-hidden rounded-3xl bg-white shadow-float ring-1 ring-white/10">
+        <div className="relative h-[210px] overflow-hidden bg-navy-800">
           <svg viewBox="0 0 400 210" preserveAspectRatio="none" className="absolute inset-0 h-full w-full">
             <circle cx="300" cy="102" r="30" fill="#11D7CF" opacity="0.35" />
             <path d="M0 150Q50 135 100 150T200 150T300 150T400 150V210H0Z" fill="#1562C7" />
@@ -103,7 +103,7 @@ export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
               <span className="text-xl font-extrabold text-white">{t.hotel}</span>
               <span className="text-[13px] font-semibold text-on-dark">{t.place}</span>
             </div>
-            <div className="flex shrink-0 gap-1 rounded-[10px] bg-white/12 p-[3px] text-xs font-bold text-[#dce6f2]">
+            <div className="flex shrink-0 gap-1 rounded-[10px] bg-white/12 p-[3px] text-xs font-bold text-on-dark-2">
               <span className="rounded-[7px] bg-white px-2 py-1 font-extrabold text-navy">TR</span>
               <span className="px-2 py-1">EN</span>
               <span className="px-2 py-1">DE</span>
@@ -140,7 +140,7 @@ export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
       </div>
       <div
         aria-hidden="true"
-        className="float-y absolute top-[92px] -right-6 hidden w-[270px] flex-col gap-2 rounded-[18px] bg-navy p-3.5 shadow-[0_24px_48px_-24px_rgba(4,37,84,0.7)] xl:flex"
+        className="float-y absolute top-[92px] -right-6 hidden w-[270px] flex-col gap-2 rounded-[18px] bg-navy p-3.5 shadow-float ring-1 ring-white/15 xl:flex"
       >
         <span className="flex items-center gap-2 text-xs font-bold text-aqua-soft">
           <span className="size-2 rounded-full bg-aqua" />
@@ -161,11 +161,11 @@ export function IconTileVisual({ icon, label }: { icon: IconName; label: string 
   return (
     <div aria-hidden="true" className="relative hidden min-h-[360px] items-center justify-center py-6 lg:flex">
       <CircuitBackdrop />
-      <div className="relative flex flex-col items-center gap-5 rounded-[32px] border border-line bg-white px-14 py-12 shadow-[0_40px_80px_-40px_rgba(4,37,84,0.55)]">
-        <span className="flex size-28 items-center justify-center rounded-[28px] bg-navy text-aqua">
+      <div className="relative flex flex-col items-center gap-5 rounded-[32px] bg-white px-14 py-12 shadow-float ring-1 ring-white/10">
+        <span className="flex size-28 items-center justify-center rounded-[28px] bg-navy bg-[radial-gradient(80%_80%_at_100%_100%,rgba(17,215,207,0.25),transparent_70%)] text-aqua">
           <Icon name={icon} size={56} strokeWidth={1.6} />
         </span>
-        <span className="text-lg font-extrabold text-navy">{label}</span>
+        <span className="font-display text-lg font-bold text-navy">{label}</span>
       </div>
     </div>
   );

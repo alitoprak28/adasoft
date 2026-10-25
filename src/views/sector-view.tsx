@@ -70,8 +70,8 @@ export function SectorView({ locale, slug }: { locale: Locale; slug: string }) {
             <ol className="grid gap-5 md:grid-cols-3">
               {sector.problems.map((p, i) => (
                 <li key={p.title} className="flex flex-col gap-3.5 rounded-[20px] border border-line bg-white p-[30px]">
-                  <span className="text-[15px] font-extrabold text-ocean">{String(i + 1).padStart(2, "0")}</span>
-                  <h3 className="text-[21px] leading-[1.3] font-bold text-navy">{p.title}</h3>
+                  <span className="flex size-10 items-center justify-center rounded-full bg-sky-soft font-display text-[15px] font-bold text-ocean">{i + 1}</span>
+                  <h3 className="text-xl leading-[1.3] font-semibold text-navy">{p.title}</h3>
                   <p className="text-[15.5px] leading-relaxed text-muted">{p.text}</p>
                 </li>
               ))}

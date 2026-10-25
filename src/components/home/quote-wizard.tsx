@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 export type WizardStrings = Omit<Dictionary["wizard"], "step"> & { stepLabels: string[] };
 
 const primaryBtn =
-  "inline-flex min-h-[50px] items-center gap-2.5 rounded-xl bg-ocean px-5 text-base font-bold sm:px-6 text-white transition-colors hover:bg-ocean-700 disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-h-[50px] items-center gap-2.5 rounded-xl bg-ocean px-5 text-base font-bold sm:px-6 text-white shadow-cta transition-colors hover:bg-ocean-700 disabled:cursor-not-allowed disabled:opacity-50 disabled:shadow-none";
 const backBtn = "min-h-11 px-1.5 text-[15px] font-bold whitespace-nowrap text-body hover:text-navy";
 const inputClass =
   "min-h-[50px] w-full rounded-xl border-[1.5px] border-line-2 bg-white px-3.5 text-base text-navy outline-none focus:border-ocean focus:ring-4 focus:ring-ocean/15";
@@ -76,7 +76,7 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
   };
 
   return (
-    <div ref={cardRef} className="flex scroll-mt-4 flex-col gap-7 rounded-3xl border border-line bg-white p-6 shadow-[0_28px_56px_-36px_rgba(4,37,84,0.4)] sm:p-9">
+    <div ref={cardRef} className="flex scroll-mt-4 flex-col gap-7 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-9">
       {step < 4 && (
         <div className="flex flex-col gap-2.5">
           <div className="flex justify-between gap-3 text-sm font-bold text-muted">
@@ -89,9 +89,9 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
             aria-valuemin={1}
             aria-valuemax={3}
             aria-valuenow={step}
-            className="h-1.5 overflow-hidden rounded-full bg-[#e3ecf5]"
+            className="h-1.5 overflow-hidden rounded-full bg-line"
           >
-            <div className="h-full rounded-full bg-ocean transition-[width] duration-300" style={{ width: `${(step / 3) * 100}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-ocean to-lagoon transition-[width] duration-300" style={{ width: `${(step / 3) * 100}%` }} />
           </div>
         </div>
       )}
@@ -143,7 +143,7 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
                   onClick={() => setTiming(i)}
                   className={cn(
                     "flex min-h-16 w-full items-center gap-3.5 rounded-[14px] border-[1.5px] px-[18px] py-3.5 text-left transition-colors",
-                    on ? "border-ocean bg-[#eef5fd]" : "border-line-2 bg-white hover:border-ocean",
+                    on ? "border-ocean bg-sky-soft" : "border-line-2 bg-white hover:border-ocean",
                   )}
                 >
                   <span className={cn("flex size-[22px] shrink-0 items-center justify-center rounded-full border-2", on ? "border-ocean" : "border-line-3")}>
@@ -211,10 +211,10 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
 
       {step === 4 && (
         <div role="status" className="flex flex-col items-start gap-[18px] py-3">
-          <span className="flex size-16 items-center justify-center rounded-full bg-[#ddf5ea] text-whatsapp">
+          <span className="flex size-16 items-center justify-center rounded-full bg-mint text-whatsapp">
             <Icon name="check" size={30} strokeWidth={2.6} />
           </span>
-          <h3 ref={headingRef} tabIndex={-1} className="text-[26px] font-bold tracking-[-0.02em] text-navy outline-none">
+          <h3 ref={headingRef} tabIndex={-1} className="text-[26px] font-semibold tracking-[-0.02em] text-navy outline-none">
             {t.thanks}
           </h3>
           <p className="text-base leading-relaxed text-muted">{t.thanksText}</p>
@@ -227,7 +227,7 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
           <button
             type="button"
             onClick={restart}
-            className="min-h-[46px] rounded-xl border-[1.5px] border-line-3 bg-white px-[18px] text-[15px] font-bold text-navy hover:border-navy"
+            className="min-h-[46px] rounded-xl border-[1.5px] border-line-2 bg-white px-[18px] text-[15px] font-bold text-navy hover:border-navy"
           >
             {t.restart}
           </button>
@@ -240,7 +240,7 @@ export function QuoteWizard({ t, whatsappBase, consentHref }: Props) {
 function StepTitle({ ref, title, sub }: { ref: Ref<HTMLHeadingElement>; title: string; sub: string }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <h3 ref={ref} tabIndex={-1} className="text-2xl font-bold tracking-[-0.02em] text-navy outline-none">
+      <h3 ref={ref} tabIndex={-1} className="text-2xl font-semibold tracking-[-0.02em] text-navy outline-none">
         {title}
       </h3>
       <p className="text-[15px] text-muted">{sub}</p>

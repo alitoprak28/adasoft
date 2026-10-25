@@ -6,7 +6,7 @@ import { WhatsAppFab } from "@/components/layout/whatsapp-fab";
 import { ogLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { getSiteText, site } from "@/content/site";
-import { jakarta } from "@/lib/fonts";
+import { fontVariables } from "@/lib/fonts";
 
 export function shellMetadata(locale: Locale): Metadata {
   const d = getDictionary(locale);
@@ -26,7 +26,7 @@ export function shellMetadata(locale: Locale): Metadata {
 /** Root document for one language: <html lang>, header, footer and the WhatsApp button. */
 export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   return (
-    <html lang={locale} className={`${jakarta.variable} h-full`}>
+    <html lang={locale} className={`${fontVariables} h-full`}>
       <body className="flex min-h-full flex-col">
         <SiteHeader locale={locale} />
         <main id="icerik" className="flex-1">

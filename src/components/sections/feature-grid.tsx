@@ -18,7 +18,9 @@ export function FeatureGrid({ items, minWidth = 320 }: { items: FeatureCardData[
           key={f.title}
           className={cn(
             "flex flex-col gap-3.5 rounded-[20px] border p-7",
-            f.highlight ? "border-navy bg-navy text-white" : "border-line bg-white text-navy",
+            f.highlight
+              ? "border-navy bg-navy bg-[radial-gradient(90%_70%_at_100%_100%,rgba(17,215,207,0.2),transparent_70%)] text-white shadow-float"
+              : "border-line bg-white text-navy",
           )}
         >
           <span
@@ -29,7 +31,7 @@ export function FeatureGrid({ items, minWidth = 320 }: { items: FeatureCardData[
           >
             <Icon name={f.icon} size={26} />
           </span>
-          <h3 className="text-[21px] font-bold tracking-[-0.01em]">{f.title}</h3>
+          <h3 className="text-xl font-semibold tracking-[-0.015em]">{f.title}</h3>
           {f.text && <p className={cn("text-[15.5px] leading-relaxed", f.highlight ? "text-on-dark-2" : "text-muted")}>{f.text}</p>}
           {f.link && (
             <Link

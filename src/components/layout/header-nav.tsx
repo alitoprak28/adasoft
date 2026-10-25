@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Logo } from "@/components/brand/logo";
 import { Icon, type IconName } from "@/components/ui/icon";
+import { TraceMark } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { cn } from "@/lib/cn";
@@ -15,7 +16,7 @@ export type NavSector = { href: string; title: string; line: string };
 
 type Panel = "svc" | "sec" | null;
 
-const navLink = "inline-flex min-h-11 items-center rounded-[10px] px-3.5 text-[15.5px] font-semibold text-ink transition-colors hover:text-ocean";
+const navLink = "inline-flex min-h-11 items-center rounded-[10px] px-3.5 text-[15.5px] font-semibold text-on-dark-2 transition-colors hover:text-white";
 
 type Props = {
   locale: Locale;
@@ -60,10 +61,10 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
   const [development, ...restGroups] = groups;
 
   return (
-    <header ref={rootRef} className="dots-light relative z-40 border-b border-navy/8 bg-mist">
+    <header ref={rootRef} className="sticky top-0 z-40 border-b border-white/8 bg-navy-950/95 backdrop-blur-md">
       <div className="mx-auto flex max-w-[1264px] items-center justify-between gap-6 px-5 py-3.5 sm:px-8 sm:py-[18px]">
         <Link href={homeHref} aria-label={t.homeLabel} onClick={closeAll}>
-          <Logo />
+          <Logo dark />
         </Link>
 
         <nav aria-label={t.mainMenu} className="hidden items-center gap-1.5 lg:flex">
@@ -78,11 +79,11 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
         </nav>
 
         <div className="flex items-center gap-3">
-          <LanguageSwitch locale={locale} label={t.language} className="hidden sm:flex" />
+          <LanguageSwitch locale={locale} label={t.language} dark className="hidden sm:flex" />
           <Link
             href={links.quote}
             onClick={closeAll}
-            className="hidden min-h-11 items-center rounded-xl bg-ocean px-5 text-[15px] font-bold text-white transition-colors hover:bg-ocean-700 sm:inline-flex"
+            className="hidden min-h-11 items-center rounded-xl bg-aqua px-5 text-[15px] font-extrabold text-navy transition-colors hover:bg-aqua-soft sm:inline-flex"
           >
             {t.quote}
           </Link>
@@ -95,7 +96,7 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
               setPanel(null);
               setMobileOpen((v) => !v);
             }}
-            className="inline-flex size-11 items-center justify-center rounded-xl border border-line-2 bg-white text-navy lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white lg:hidden"
           >
             <Icon name={mobileOpen ? "close" : "menu"} size={22} strokeWidth={2} />
           </button>
@@ -104,7 +105,7 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
 
       {panel === "svc" && (
         <div className="absolute inset-x-0 top-full z-50 hidden px-8 lg:block">
-          <div className="mx-auto mt-2.5 grid max-w-[1200px] grid-cols-[1.75fr_1fr_0.95fr] gap-7 rounded-[22px] border border-line bg-white p-7 shadow-[0_32px_64px_-32px_rgba(4,37,84,0.5)]">
+          <div className="mx-auto mt-2.5 grid max-w-[1200px] grid-cols-[1.75fr_1fr_0.95fr] gap-7 rounded-[22px] border border-line bg-white p-7 shadow-float">
             <div className="flex flex-col gap-1.5">
               <MenuLabel>{development.title}</MenuLabel>
               <div className="grid grid-cols-2 gap-1">
@@ -124,8 +125,11 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
               ))}
             </div>
             <div className="flex flex-col gap-3.5 rounded-2xl bg-navy p-6 text-white">
-              <p className="text-xs font-extrabold tracking-[0.12em] text-aqua uppercase">{t.notListedEyebrow}</p>
-              <p className="text-[19px] leading-snug font-bold">{t.notListedTitle}</p>
+              <p className="flex items-center gap-2 text-sm font-semibold text-aqua">
+                <TraceMark />
+                {t.notListedEyebrow}
+              </p>
+              <p className="font-display text-[19px] leading-snug font-bold">{t.notListedTitle}</p>
               <p className="text-sm leading-relaxed text-on-dark">{t.notListedText}</p>
               <Link
                 href={links.quote}
@@ -142,7 +146,7 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
 
       {panel === "sec" && (
         <div className="absolute inset-x-0 top-full z-50 hidden px-8 lg:block">
-          <ul className="mx-auto mt-2.5 grid max-w-[1200px] grid-cols-3 gap-1 rounded-[22px] border border-line bg-white p-[22px] shadow-[0_32px_64px_-32px_rgba(4,37,84,0.5)]">
+          <ul className="mx-auto mt-2.5 grid max-w-[1200px] grid-cols-3 gap-1 rounded-[22px] border border-line bg-white p-[22px] shadow-float">
             {sectors.map((s) => (
               <li key={s.href}>
                 <Link href={s.href} onClick={closeAll} className="flex flex-col gap-0.5 rounded-xl px-3.5 py-3 text-navy transition-colors hover:bg-mist">
@@ -159,7 +163,7 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
         <nav
           id="mobil-menu"
           aria-label={t.mobileMenu}
-          className="mx-5 mb-4 flex flex-col rounded-2xl border border-line bg-white p-2 text-[17px] font-semibold text-navy shadow-[0_18px_36px_-24px_rgba(4,37,84,0.45)] sm:mx-8 lg:hidden"
+          className="mx-5 mb-4 flex max-h-[calc(100svh-6rem)] flex-col overflow-y-auto rounded-2xl border border-line bg-white p-2 text-[17px] font-semibold text-navy shadow-float sm:mx-8 lg:hidden"
         >
           <MobileGroup title={t.services}>
             {groups.flatMap((g) => g.items).map((item) => (
@@ -185,7 +189,7 @@ export function HeaderNav({ locale, t, homeHref, links, groups, sectors }: Props
           <Link href={links.quote} onClick={closeAll} className="flex min-h-12 items-center rounded-lg px-3.5 font-extrabold text-ocean hover:bg-mist">
             {t.quote}
           </Link>
-          <div className="mt-1.5 border-t border-[#e3ecf5] px-3.5 pt-3 pb-1.5">
+          <div className="mt-1.5 border-t border-line px-3.5 pt-3 pb-1.5">
             <LanguageSwitch locale={locale} label={t.language} className="inline-flex" />
           </div>
         </nav>
@@ -200,7 +204,7 @@ function PanelButton({ label, open, onClick }: { label: string; open: boolean; o
       type="button"
       aria-expanded={open}
       onClick={onClick}
-      className={cn(navLink, "gap-1.5", open ? "bg-navy/7 font-bold text-navy" : "")}
+      className={cn(navLink, "gap-1.5", open && "bg-white/10 text-white")}
     >
       {label}
       <Icon name="chevronDown" size={14} strokeWidth={2.4} className={cn("transition-transform", open && "rotate-180")} />
@@ -209,7 +213,7 @@ function PanelButton({ label, open, onClick }: { label: string; open: boolean; o
 }
 
 function MenuLabel({ children }: { children: ReactNode }) {
-  return <p className="px-2.5 pb-1.5 text-xs font-extrabold tracking-[0.12em] text-lagoon-ink uppercase">{children}</p>;
+  return <p className="px-2.5 pb-1.5 text-[13px] font-semibold text-lagoon-ink">{children}</p>;
 }
 
 function MenuItem({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {

@@ -24,7 +24,7 @@ export function About({ locale }: { locale: Locale }) {
                   <Icon name={v.icon} size={22} strokeWidth={1.9} />
                 </span>
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-[17px] font-bold text-navy">{v.title}</h3>
+                  <h3 className="text-[17px] font-semibold text-navy">{v.title}</h3>
                   <p className="text-[15.5px] leading-normal text-muted">{v.text}</p>
                 </div>
               </li>
@@ -33,13 +33,13 @@ export function About({ locale }: { locale: Locale }) {
         </div>
         <ul className="grid grid-cols-2 gap-3 sm:gap-5">
           {founders.map((f, i) => (
-            <li key={i} className="flex flex-col gap-3 rounded-[20px] border border-line bg-white p-3 pb-4 sm:gap-4 sm:p-[18px] sm:pb-6">
-              <div className="flex aspect-square flex-col items-center justify-center gap-2.5 rounded-[14px] bg-mist-2 text-[#7c93b0]">
+            <li key={i} className="flex flex-col gap-3 rounded-[20px] border border-line bg-white p-3 pb-4 shadow-card sm:gap-4 sm:p-[18px] sm:pb-6">
+              <div className="flex aspect-square flex-col items-center justify-center gap-2.5 rounded-[14px] bg-gradient-to-br from-sky-soft to-mist-2 text-line-3">
                 <Icon name="user" size={44} strokeWidth={1.4} className="sm:size-14" />
                 <span className="text-sm font-semibold text-muted">{d.common.photo}</span>
               </div>
               <div className="flex flex-col gap-1 px-1 sm:px-1.5">
-                <h3 className="text-base font-bold text-navy sm:text-[19px]">{f.name}</h3>
+                <h3 className="text-base font-semibold text-navy sm:text-[19px]">{f.name}</h3>
                 <p className="text-[13px] leading-snug text-muted sm:text-[14.5px]">{f.role}</p>
               </div>
             </li>

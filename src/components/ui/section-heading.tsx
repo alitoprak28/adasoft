@@ -12,9 +12,20 @@ type Props = {
   aside?: ReactNode;
 };
 
+/** The circuit end from the logo: a short trace that stops in a ring. */
+export function TraceMark({ className }: { className?: string }) {
+  return (
+    <svg width="24" height="10" viewBox="0 0 24 10" aria-hidden="true" className={cn("shrink-0", className)}>
+      <path d="M1 5H14.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="19" cy="5" r="3.3" fill="none" stroke="currentColor" strokeWidth="2" />
+    </svg>
+  );
+}
+
 export function Eyebrow({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
-    <p className={cn("text-sm font-extrabold uppercase tracking-[0.12em]", dark ? "text-aqua" : "text-lagoon-ink")}>
+    <p className={cn("flex items-center gap-2.5 text-[15px] font-semibold", dark ? "text-aqua" : "text-lagoon-ink")}>
+      <TraceMark />
       {children}
     </p>
   );
@@ -25,7 +36,7 @@ export function SectionTitle({ id, children, dark = false, className }: { id?: s
     <h2
       id={id}
       className={cn(
-        "text-[32px] leading-[1.12] font-extrabold tracking-[-0.03em] sm:text-[46px]",
+        "text-[33px] leading-[1.08] font-bold tracking-[-0.025em] sm:text-[48px]",
         dark ? "text-white" : "text-navy",
         className,
       )}

@@ -21,7 +21,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
 
   // The extra bottom padding keeps the last line clear of the floating WhatsApp button.
   return (
-    <footer className="bg-navy-950 px-5 pt-18 pb-28 sm:px-8">
+    <footer className="border-t border-white/8 bg-abyss px-5 pt-18 pb-28 sm:px-8">
       <div className="mx-auto flex max-w-[1200px] flex-col gap-12">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_repeat(3,minmax(0,1fr))]">
           <div className="flex flex-col gap-[18px]">
@@ -37,7 +37,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </div>
 
           <nav aria-label={d.footer.services} className="flex flex-col text-[15px]">
-            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.services}</h2>
+            <h2 className="mb-2.5 text-base font-semibold text-white">{d.footer.services}</h2>
             {getServices(locale).map((s) => (
               <Link key={s.id} href={s.href} className={linkClass}>
                 {s.shortTitle ?? s.title}
@@ -46,7 +46,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </nav>
 
           <nav aria-label={d.footer.company} className="flex flex-col text-[15px]">
-            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.company}</h2>
+            <h2 className="mb-2.5 text-base font-semibold text-white">{d.footer.company}</h2>
             {company.map((l) => (
               <Link key={l.href} href={l.href} className={linkClass}>
                 {l.label}
@@ -55,7 +55,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           </nav>
 
           <div className="flex flex-col text-[15px] text-on-dark">
-            <h2 className="mb-2.5 text-sm font-extrabold tracking-[0.1em] text-white uppercase">{d.footer.contact}</h2>
+            <h2 className="mb-2.5 text-base font-semibold text-white">{d.footer.contact}</h2>
             <a href={phoneHref} className={linkClass}>
               {site.contact.phoneDisplay}
             </a>

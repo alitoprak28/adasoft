@@ -6,11 +6,11 @@ import { locales, localeLabels, type Locale } from "@/i18n/config";
 import { alternateHref, homeHref } from "@/i18n/routes";
 import { cn } from "@/lib/cn";
 
-type Props = { locale: Locale; label: string; className?: string };
+type Props = { locale: Locale; label: string; className?: string; dark?: boolean };
 
-function Links({ locale, label, className, hrefFor }: Props & { hrefFor: (l: Locale) => string }) {
+function Links({ locale, label, className, dark = false, hrefFor }: Props & { hrefFor: (l: Locale) => string }) {
   return (
-    <nav aria-label={label} className={cn("flex rounded-[10px] border border-line-2 p-[3px]", className)}>
+    <nav aria-label={label} className={cn("flex rounded-[10px] border p-[3px]", dark ? "border-white/15" : "border-line-2", className)}>
       {locales.map((l) => (
         <a
           key={l}
@@ -20,7 +20,7 @@ function Links({ locale, label, className, hrefFor }: Props & { hrefFor: (l: Loc
           aria-current={l === locale ? "true" : undefined}
           className={cn(
             "inline-flex min-h-9 min-w-10 items-center justify-center rounded-lg px-2 text-[13px] font-bold transition-colors",
-            l === locale ? "bg-navy text-white" : "text-body hover:text-navy",
+            l === locale ? (dark ? "bg-white text-navy" : "bg-navy text-white") : dark ? "text-on-dark-2 hover:text-white" : "text-body hover:text-navy",
           )}
         >
           {localeLabels[l]}
