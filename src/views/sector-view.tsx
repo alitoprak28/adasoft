@@ -3,10 +3,10 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FaqSection } from "@/components/sections/faq";
 import { FeatureGrid } from "@/components/sections/feature-grid";
-import { BookingMockup, IconTileVisual } from "@/components/sections/hero-visuals";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProjectCard } from "@/components/sections/project-cards";
 import { Container, Section } from "@/components/ui/layout";
+import { SectorVisual } from "@/components/visuals/sector-visuals";
 import { Eyebrow, SectionHeading, SectionTitle } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -60,7 +60,7 @@ export function SectorView({ locale, slug }: { locale: Locale; slug: string }) {
         lead={sector.lead}
         ctaLabel={t.cta}
         trust={sector.trust}
-        visual={sector.visual === "booking" ? <BookingMockup t={d.visuals.booking} /> : <IconTileVisual icon={sector.icon} label={sector.title} />}
+        visual={<SectorVisual id={id} locale={locale} />}
       />
 
       {sector.problems && (

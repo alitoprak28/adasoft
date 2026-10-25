@@ -13,6 +13,7 @@
   --color-navy-800: #0a3470;
   --color-ocean: #1562c7;
   --color-ocean-700: #0f4fa6;
+  --color-sea: #0fa1d3;
   --color-aqua: #11d7cf;
   --color-aqua-soft: #7dede7;
   --color-lagoon: #08b0be;
@@ -33,6 +34,9 @@
   --color-on-dark-2: #c5d3e6;
   --color-on-dark-3: #7fa0c6;
   --color-whatsapp: #0e7a41;
+  /* Status colour for warnings inside the illustrative screens (low stock and the like). */
+  --color-amber: #a3560a;
+  --color-amber-soft: #fdf0dc;
 
   --shadow-card: 0 1px 2px rgba(4, 37, 84, 0.04), 0 22px 40px -26px rgba(4, 37, 84, 0.38);
   --shadow-float: 0 40px 80px -40px rgba(2, 20, 49, 0.7);

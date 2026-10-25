@@ -26,7 +26,6 @@ type SectorText = {
 type SectorDef = {
   id: SectorId;
   icon: IconName;
-  visual?: "booking";
   solutions: { icon: IconName; service: ServiceId; highlight?: boolean }[];
   text: Record<Locale, SectorText>;
 };
@@ -35,7 +34,6 @@ export type SectorSolution = SolutionText & { icon: IconName; service: ServiceId
 export type Sector = Omit<SectorText, "solutions"> & {
   id: SectorId;
   icon: IconName;
-  visual?: "booking";
   solutions: SectorSolution[];
   slug: string;
   href: string;
@@ -45,7 +43,6 @@ const defs: SectorDef[] = [
   {
     id: "tourism",
     icon: "bed",
-    visual: "booking",
     solutions: [
       { icon: "globe", service: "web" },
       { icon: "calendarCheck", service: "custom" },
@@ -443,7 +440,6 @@ function localize(def: SectorDef, locale: Locale): Sector {
     ...t,
     id: def.id,
     icon: def.icon,
-    visual: def.visual,
     solutions: def.solutions.map((s, i) => ({ ...t.solutions[i], icon: s.icon, service: s.service, highlight: !!s.highlight })),
     slug: sectorSlugs[def.id][locale],
     href: sectorHref(locale, def.id),

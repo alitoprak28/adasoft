@@ -11,7 +11,7 @@ import { getServiceGroups, servicesInGroup, type Service } from "@/content/servi
 import { cn } from "@/lib/cn";
 
 const cardBase =
-  "group flex flex-col gap-3.5 rounded-[20px] border border-line bg-white p-7 text-navy transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-ocean/30 hover:shadow-card";
+  "group flex flex-col gap-3.5 rounded-[20px] border border-line p-7 text-navy transition-[border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-ocean/30 hover:shadow-card";
 
 function ServiceIcon({ service, size = 52 }: { service: Service; size?: number }) {
   return (
@@ -23,7 +23,7 @@ function ServiceIcon({ service, size = 52 }: { service: Service; size?: number }
 
 function ServiceCard({ service, className }: { service: Service; className?: string }) {
   return (
-    <Link href={service.href} className={cn(cardBase, className)}>
+    <Link href={service.href} className={cn(cardBase, "bg-white", className)}>
       <span className="mb-1 flex items-start justify-between gap-4">
         <ServiceIcon service={service} />
         <CornerArrow />

@@ -4,11 +4,11 @@ import { notFound } from "next/navigation";
 import { CtaBand } from "@/components/sections/cta-band";
 import { FaqSection } from "@/components/sections/faq";
 import { FeatureGrid } from "@/components/sections/feature-grid";
-import { IconTileVisual, PhoneMockup } from "@/components/sections/hero-visuals";
 import { PageHero } from "@/components/sections/page-hero";
 import { ProcessSteps, StepList } from "@/components/sections/process-steps";
 import { ProjectCard } from "@/components/sections/project-cards";
 import { Icon } from "@/components/ui/icon";
+import { ServiceVisual } from "@/components/visuals/service-visuals";
 import { Container, Section } from "@/components/ui/layout";
 import { Eyebrow, SectionHeading, SectionTitle } from "@/components/ui/section-heading";
 import type { Locale } from "@/i18n/config";
@@ -56,7 +56,7 @@ export function ServiceView({ locale, slug }: { locale: Locale; slug: string }) 
         lead={service.lead}
         ctaLabel={t.cta}
         trust={service.trust}
-        visual={id === "mobile" ? <PhoneMockup t={d.visuals.phone} /> : <IconTileVisual icon={service.icon} label={name} />}
+        visual={<ServiceVisual id={id} locale={locale} />}
       />
 
       <Section aria-labelledby="neler-title">

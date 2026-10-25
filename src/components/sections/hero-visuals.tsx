@@ -1,7 +1,7 @@
-import { Icon, type IconName } from "@/components/ui/icon";
+import { Icon } from "@/components/ui/icon";
 import type { Dictionary } from "@/i18n/dictionaries";
 
-function CircuitBackdrop() {
+export function CircuitBackdrop() {
   return (
     <svg viewBox="0 0 520 600" aria-hidden="true" className="absolute inset-0 h-full w-full" preserveAspectRatio="none">
       <g fill="none" stroke="#7DEDE7" strokeOpacity="0.28" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -153,20 +153,5 @@ export function BookingMockup({ t }: { t: Dictionary["visuals"]["booking"] }) {
       </div>
       <figcaption className="sr-only">{t.caption}</figcaption>
     </figure>
-  );
-}
-
-/** Generic visual for pages without a bespoke illustration: a large icon tile on a circuit backdrop. */
-export function IconTileVisual({ icon, label }: { icon: IconName; label: string }) {
-  return (
-    <div aria-hidden="true" className="relative hidden min-h-[360px] items-center justify-center py-6 lg:flex">
-      <CircuitBackdrop />
-      <div className="relative flex flex-col items-center gap-5 rounded-[32px] bg-white px-14 py-12 shadow-float ring-1 ring-white/10">
-        <span className="flex size-28 items-center justify-center rounded-[28px] bg-navy bg-[radial-gradient(80%_80%_at_100%_100%,rgba(17,215,207,0.25),transparent_70%)] text-aqua">
-          <Icon name={icon} size={56} strokeWidth={1.6} />
-        </span>
-        <span className="font-display text-lg font-bold text-navy">{label}</span>
-      </div>
-    </div>
   );
 }
